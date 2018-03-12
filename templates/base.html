@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load rango_template_tags %}
+
+ <html>
+  <head lang = "en">
+    <meta charset="utf-8" />
+    <title>
+      Humans of Hive-
+      {% block titleblock %}
+        A site for all your Hive stories!
+      {% endblock %}
+    </title>
+  </head>
+
+  <body>
+    <div>
+      {% block bodyblock %}
+      {% endblock %}
+    </div>
+    <hr />
+
+    <div>
+      <ul>
+        {% if user.is_authenticated %}
+          <li><a href="{% url 'add_post' %}">Add a story</a></li>
+          <li><a href="{% url 'user_profile'}">View profile</a></li>
+        {% else %}
+          <li><a href="{% url 'login' %}">Sign in</a></li>
+          <li><a href="{% url 'register' %}">Sign up</a></li>
+        {% endif %}
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="{% url 'hall_of_fame'}">Hall of Fame</a></li>
+      </ul>
+  </body>
+</html>

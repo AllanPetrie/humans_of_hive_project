@@ -3,13 +3,22 @@ from django.shortcuts import render
 def home(request):
     #home page
 
+def about(request):
+    return render(request, 'humans_of_hive/about.html', {})
+
 def register(request):
-    #signup page
+    registered = False
+
+    if request.method == "POST":
+        user_form = UserForm(data=request.POST)
+        profile_form = UserProfileForm(data=request.POST)
+
+        
 
 def login(request):
     #login page
 
-def view_post(request):
+def show_post(request):
     #page for viewing posts
 
 def add_post(request):
@@ -18,7 +27,7 @@ def add_post(request):
 def add_comment(request):
     #page for creating a comment
 
-def user_profile(request):
+def show_profile(request):
     #user profile page
 
 def user_posts(request):
