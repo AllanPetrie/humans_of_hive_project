@@ -1,0 +1,4 @@
+Marija
+*updated views.py, forms.py, models.py
+**changed file tree (/templates --> /templates/humans_of_hive)
+***added paths for static, media, and template dirs in SETTINGS.PY file
