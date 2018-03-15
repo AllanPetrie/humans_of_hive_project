@@ -1,0 +1,26 @@
+{% extends 'humans_of_hive/base.html' %}
+{% load staticfiles %}
+
+{% block titleblock %}
+  Register
+{% endblock %}
+
+
+{% block bodyblock %}
+  <h1>Register of humans of hive... the best decision you'll ever make</h1>
+  {% if registered %}
+    <strong>Thank you for registering for humans_of_hive</strong>
+    <a href="{% url 'about' %}">Back to homepage.</a><br />
+  {% else %}
+    <strong>Register here</strong><br />
+    <form id="user_form" method="post" action="{% url 'register' %}" enctype="multipart/form-data">
+
+      {% csrf_token %}
+
+      {{ user_form.as_p }}
+      {{ profile_form.as_p }}
+
+      <input type="submit" name="submit" value="Register" />
+    </form>
+    {% endif %}
+{% endblock %}
