@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth import logout
-from humans_of_hive.models import Post
+from humans_of_hive.models import Post, Comment, UserProfile
 from humans_of_hive.forms import PostForm, CommentForm, UserForm, UserProfileForm
 
 def home(request):
@@ -42,7 +42,6 @@ def register(request):
             registered=True
         #If incorrect details were provided
         else:
-            """""display errors???"""""
             print(user_form.errors, profile_form.errors)
     #If request is not HTTP POST
     else:
@@ -67,32 +66,45 @@ def login(request):
             if user.is_active:
                 #allow the login
                 login(request, user)
-                #send to home page!!!
+                return HttpResponseRedirect(reverse('home'))
             #if user is NOT active
             else:
                 #block login and provide information
                 context_dict={'message':'Your account is disabled./n If you are unsure why this happened, please contact us.'}
-                """"return render(request, !!!path_back_to_login!!!, context=context_dict)"""
+                return render(request, 'humans_of_hive/login.html', context=context_dict)
         #If there is no such user
         else:
             #display information
             context_dict = {'message': "Invalid login details supplied."}
             print ("Invalid login details: {0}, {1}".format(username, password))
             #allow for retry
-            """return render(request, !!!path_back_to_login!!!, context=context_dict)"""
+            return render(request, 'humans_of_hive/login.html', context=context_dict)
     #If request is not HTTP POST,
     else:
         #display login page
-        """return render(request, !!!path_back_to_login!!!, {})"""
+        return render(request, 'humans_of_hive/login.html', {})
 
 @login_required
 def logout(request):
     #User is certainly logged on, so simply logout
     logout(request)
-    """return to home !!!!!!!!!!!!!!!!!!!!!!"""
+    return HttpResponseRedirect(reverse('home'))
 
-def show_post(request):
-    #page for viewing posts
+def show_post(request, post_name_slug):
+    context_dict = {}
+    try:
+        #get the requested post
+        post = Post.objects.get(slug=post_name_slug)
+        #get comments of that post
+        comments = Comment.objects.filter(post=post)
+        #populate context dictionary
+        context_dict['post'] = post
+        context_dict['comments'] = comments
+    except Post.DoesNotExist:
+        #populate context dictionary
+        context_dict['post'] = None
+        context_dict['comments'] = None
+    return render(request, 'humans_of_hive/view_post.html', context=context_dict)
 
 @login_required
 def add_post(request):
@@ -105,19 +117,19 @@ def add_post(request):
         if form.is_valid():
             #save new post to the category
             form.save(commit=True)
-            "GO TO USER / HOME PAGE; DISPLAY SUCCESS MESSAGE???"
+            return index(request)
         #If form is NOT valid
         else:
             #print out error message(s)
             print(form.errors)
     context_dict={'form':form}
-    """return render(request, !!!return_somewhere!!!, context=context_dict)"""
+    return render(request, 'humans_of_hive/home.html', context=context_dict)
 
 @login_required
-def add_comment(request, category_name_slug):
+def add_comment(request, post_name_slug):
     #Check if the page user is trying to comment actually exists
     try:
-        post = Post.objects.get(slug=category_name_slug)
+        post = Post.objects.get(slug=post_name_slug)
     except Post.DoesNotExist:
         post=None
     #Get form comment
@@ -136,23 +148,30 @@ def add_comment(request, category_name_slug):
                 comment.post = post
                 "comment.time_posted = get now date"
                 comment.save()
-                "GO BACK TO THE POST"
+                return show_post(request, post_name_slug)
         #If form is invalid or post does not exist
         else:
             #print errors
             print(form.errors)
     context_dict = {'form': form, 'post': post}
-    """return render(request, !!!go_to_the_post!!!, context_dict)"""
+    return render(request, 'humans_of_hive/home.html', context_dict)
 
 @login_required
 def show_profile(request):
-    context_dict = {}
+    #Get current user
+    current_user = request.user
+    #get user profile of the current user
+    user = UserProfile.objects.filter(user = current_user)
+    context_dict = {'user_profile' : user}
     return render(request, 'humans_of_hive/user_profile', context=context_dict)
 
 @login_required
 def user_posts(request):
-    user_posts_list =
-    context_dict = {}
+    #Get current user
+    current_user = request.user
+    #get posts by current user
+    posts = Post.objects.filter(user=current_user)
+    context_dict = {'posts':posts}
     return render(request, 'humans_of_hive/user_posts', context=context_dict)
 
 def hall_of_fame(request):
