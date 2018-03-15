@@ -66,10 +66,12 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'humans_of_hive_project.wsgi.application'
 
@@ -103,6 +105,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL = '/humans_of_hive/login/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
