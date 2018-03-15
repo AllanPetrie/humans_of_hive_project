@@ -9,8 +9,8 @@ class Post(models.Model):
     title = models.CharField(max_length = title_length)
     points = models.IntegerField(default = 0)
     story = models.CharField(max_length = story_length)
-    picture = models.ImageField(upload_to='post_photos', blank=True) #is it possible to make photos optional? 
-    time_posted = models.DateTimeField
+    picture = models.ImageField(upload_to='post_photos', blank=True)
+    time_posted = models.DateTimeField(auto_now_add = True)
     slug = models.SlugField(blank=True, unique=True)
 
     #we want people to be able to create new/access posts in our web page
@@ -25,12 +25,10 @@ class Comment(models.Model):
     comment_length = 1000
     post = models.ForeignKey(Post)
     content = models.CharField(max_length = comment_length)
-    time_posted = models.DateTimeField
-    #field to store the user that created the comment?
+    time_posted = models.DateTimeField(auto_now_add = True)
 
     def __str__(self):
-        #what should we use for this?
-        #maybe title of the post and comment.time_posted?
+        return str(self.time_posted) + " " + self.content
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
