@@ -1,3 +1,14 @@
-<!DOCTYPE html>
+{% extends 'humans_of_hive/base.html' %}
+{% load staticfiles %}
 
-<b>Hello world</b>
+{% block title_block %}
+  Home
+{% endblock %}
+
+{% block script_block %}
+  <script type="text/javascript" src='sortPosts.js'></script>
+{% endblock %}
+
+{% block body_block %}
+
+<h1><b>Most recent posts</b></h1>

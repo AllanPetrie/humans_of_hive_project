@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 {% load staticfiles %}
-{% load rango_template_tags %}
 
  <html>
   <head lang = "en">
@@ -11,6 +10,8 @@
         A site for all your Hive stories!
       {% endblock %}
     </title>
+    {% block script_block %}
+    {% endblock %}
   </head>
 
   <body>
