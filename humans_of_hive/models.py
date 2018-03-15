@@ -2,9 +2,10 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 
-class Post(models.model):
+class Post(models.Model):
     title_length = 100
     story_length = 999999#max length subject to change
+    user = models.ForeignKey(UserProfile)
     title = models.CharField(max_length = title_length)
     points = models.IntegerField(default = 0)
     story = models.CharField(max_length = story_length)
@@ -20,7 +21,7 @@ class Post(models.model):
     def __str__(self):
         return self.title
 
-class Comment(models.model):
+class Comment(models.Model):
     comment_length = 1000
     post = models.ForeignKey(Post)
     content = models.CharField(max_length = comment_length)
@@ -31,11 +32,11 @@ class Comment(models.model):
         #what should we use for this?
         #maybe title of the post and comment.time_posted?
 
-class UserProfile(models.model):
+class UserProfile(models.Model):
     user = models.OneToOneField(User)
     degree = models.CharField(max_length = 50)
     level_of_study = models.CharField(max_length = 20)
-    profile_picture = models.ImageField(upload_to = 'profile images', blank = True)
+    profile_picture = models.ImageField(upload_to = 'profile_images', blank = True)
 
     def __str__(self):
         return self.user.username

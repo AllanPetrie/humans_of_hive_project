@@ -1,9 +1,13 @@
 from django.shortcuts import render
 from django.contrib.auth import logout
+from humans_of_hive.models import Post
 from humans_of_hive.forms import PostForm, CommentForm, UserForm, UserProfileForm
 
 def home(request):
-    #home page
+    #didn't add ordering yet
+    post_list = Post.objects
+    context_dict = {'posts': post_list}
+    return render(request, 'humans_of_hive/home.html', context=context_dict)
 
 def about(request):
     return render(request, 'humans_of_hive/about.html', {})
@@ -38,7 +42,7 @@ def register(request):
             registered=True
         #If incorrect details were provided
         else:
-            #display errors???
+            """""display errors???"""""
             print(user_form.errors, profile_form.errors)
     #If request is not HTTP POST
     else:
@@ -68,24 +72,24 @@ def login(request):
             else:
                 #block login and provide information
                 context_dict={'message':'Your account is disabled./n If you are unsure why this happened, please contact us.'}
-                return render(request, !!!path_back_to_login!!!, context=context_dict)
+                """"return render(request, !!!path_back_to_login!!!, context=context_dict)"""
         #If there is no such user
         else:
             #display information
             context_dict = {'message': "Invalid login details supplied."}
             print ("Invalid login details: {0}, {1}".format(username, password))
             #allow for retry
-            return render(request, !!!path_back_to_login!!!, context=context_dict)
+            """return render(request, !!!path_back_to_login!!!, context=context_dict)"""
     #If request is not HTTP POST,
     else:
         #display login page
-        return render(request, !!!path_back_to_login!!!, {})
+        """return render(request, !!!path_back_to_login!!!, {})"""
 
 @login_required
 def logout(request):
     #User is certainly logged on, so simply logout
     logout(request)
-    #return to home !!!!!!!!!!!!!!!!!!!!!!
+    """return to home !!!!!!!!!!!!!!!!!!!!!!"""
 
 def show_post(request):
     #page for viewing posts
@@ -107,7 +111,7 @@ def add_post(request):
             #print out error message(s)
             print(form.errors)
     context_dict={'form':form}
-    return render(request, !!!return_somewhere!!!, context=context_dict)
+    """return render(request, !!!return_somewhere!!!, context=context_dict)"""
 
 @login_required
 def add_comment(request, category_name_slug):
@@ -138,15 +142,20 @@ def add_comment(request, category_name_slug):
             #print errors
             print(form.errors)
     context_dict = {'form': form, 'post': post}
-    return render(request, !!!go_to_the_post!!!, context_dict)
+    """return render(request, !!!go_to_the_post!!!, context_dict)"""
 
 @login_required
 def show_profile(request):
-    #user profile page
+    context_dict = {}
+    return render(request, 'humans_of_hive/user_profile', context=context_dict)
 
 @login_required
 def user_posts(request):
-    #page displaying all the posts of a given user
+    user_posts_list =
+    context_dict = {}
+    return render(request, 'humans_of_hive/user_posts', context=context_dict)
 
 def hall_of_fame(request):
-    #page displaying all posts with more the 50? points
+    fame_list = Post.objects.order_by('-points')[:10]
+    context_dict = {'hall_of_fame' : fame_list}
+    return render(request, 'humans_of_hive/hall_of_fame', context=context_dict)
