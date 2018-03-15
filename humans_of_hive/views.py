@@ -1,7 +1,11 @@
 from django.shortcuts import render
-from django.contrib.auth import logout
-from humans_of_hive.models import Post, Comment, UserProfile
-from humans_of_hive.forms import PostForm, CommentForm, UserForm, UserProfileForm
+from django.http import HttpResponse, HttpResponseRedirect
+from humans_of_hive.models import Post,Comment,UserProfile
+from humans_of_hive.forms import PostForm,CommentForm,UserForm,UserProfileForm
+from django.contrib.auth import authenticate, login, logout
+from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import  login_required
+from datetime import datetime
 
 def home(request):
     #didn't add ordering yet

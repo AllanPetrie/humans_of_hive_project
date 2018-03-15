@@ -1,4 +1,4 @@
-from django.confg.urls import url
+from django.conf.urls import url
 from humans_of_hive import views
 
 urlpatterns = [

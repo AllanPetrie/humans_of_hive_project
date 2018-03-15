@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from humans_of_hive import Post, Comment, UserProfile
+from humans_of_hive.models import Post, Comment, UserProfile
 
 class PostForm(forms.ModelForm):
     title = forms.CharField(max_length=Post.title_length, help_text='Name your post')
