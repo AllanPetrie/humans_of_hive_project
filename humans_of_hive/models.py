@@ -11,9 +11,13 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+    class Meta:
+        #impose ordering on a UserProfile list
+        ordering = ['user']
+
 class Post(models.Model):
     title_length = 100
-    story_length = 999999#max length subject to change
+    story_length = 999999
     user = models.ForeignKey(UserProfile)
     title = models.CharField(max_length = title_length)
     points = models.IntegerField(default = 0)
@@ -22,13 +26,16 @@ class Post(models.Model):
     time_posted = models.DateTimeField(auto_now_add = True)
     slug = models.SlugField(blank=True, unique=True)
 
-    #we want people to be able to create new/access posts in our web page
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(Post, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        #impose ordering on a posts list
+        ordering = ['title']
 
 class Comment(models.Model):
     comment_length = 1000
@@ -38,4 +45,8 @@ class Comment(models.Model):
     time_posted = models.DateTimeField(auto_now_add = True)
 
     def __str__(self):
-        return str(self.time_posted) + " " + self.content
+        return str(self.owner) +" "+ str(self.post)+" "+ str(self.time_posted)
+
+    class Meta:
+        #impose ordering on a comment list
+        ordering = ['time_posted', 'owner']
