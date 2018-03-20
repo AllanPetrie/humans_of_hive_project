@@ -25,7 +25,7 @@ class Post(models.Model):
     #we want people to be able to create new/access posts in our web page
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-        super(Category, self).save(*args, **kwargs)
+        super(Post, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.title

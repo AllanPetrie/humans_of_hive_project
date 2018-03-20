@@ -63,7 +63,7 @@ def register(request):
     context_dict = {'user_form':user_form, 'profile_form':profile_form, 'registered':registered}
     return render(request, 'humans_of_hive/register.html', context=context_dict)
 
-def login(request):
+def user_login(request):
     #If request is HTTP POST
     if request.method=='POST':
         #get information from the user
