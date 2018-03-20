@@ -32,6 +32,7 @@ class Post(models.Model):
 
 class Comment(models.Model):
     comment_length = 1000
+    owner = models.ForeignKey(UserProfile, default=None)
     post = models.ForeignKey(Post)
     content = models.CharField(max_length = comment_length)
     time_posted = models.DateTimeField(auto_now_add = True)
