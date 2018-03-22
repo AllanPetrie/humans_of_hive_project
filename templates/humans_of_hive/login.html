@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<title>Humans of Hive</title>
+<meta charset="iso-8859-1">
+<link rel="stylesheet" href="styles/layout.css" type="text/css">
+<!--[if lt IE 9]><script src="scripts/html5shiv.js"></script><![endif]-->
+</head>
+<body>
+<div class="wrapper row1">
+  <header id="header" class="clear">
+    <div id="hgroup">
+      <h1><a href="#title">Humans of Hive</a></h1>
+    </div>
+    <nav>
+      <ul>
+		<li><a href="home.html">Home</a></li>
+        <li><a href="user.html">User</a></li>
+        <li><a href="about.html">About</a></li>
+		<li><a href="halloffame.html">Hall of Fame</a></li>
+        <li><a href="login.html">Login/Register</a></li>
+      </ul>
+    </nav>
+  </header>
+</div>
+<!-- content -->
+<div class="wrapper row2">
+  <div id="container" class="clear">
+    <form action="action_page.php">
+  <div class="imgcontainer">
+    <img src="images/login.jpg" alt="login" class="avatar">
+  </div>
+<span class="psw"><a href="register.html">Register? </a></span>
+  <div class="container">
+    <label for="uname"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="uname" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="psw" required>
+
+    <button type="submit">Login</button>
+    <label>
+      <input type="checkbox" checked="checked" name="remember"> Remember me
+    </label>
+  </div>
+
+  <div class="container" style="background-color:#f1f1f1">
+    <button type="button" class="cancelbtn">Cancel</button>
+    <span class="psw">Forgot <a href="password.html">password?</a></span>
+	<p></p>
+	
+  </div>
+  </div>
+</form>
+  </div>
+</div>
+<!-- Footer -->
+<div class="wrapper row3">
+  <footer id="footer" class="clear">
+    <p class="fl_left">Copyright &copy; 2018 - <a href="#">Humans of Hive Project</a></p>
+  </footer>
+</div>
+</body>
+</html>
