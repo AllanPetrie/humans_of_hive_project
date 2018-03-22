@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from humans_of_hive.models import Post,Comment,UserProfile
+from humans_of_hive.models import Post,Comment,UserProfile#,Relationship
 from humans_of_hive.forms import PostForm,CommentForm,UserForm,UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import  login_required
 from datetime import datetime
+from django.contrib.auth.models import User
+from friendship.models import Friend, Follow
 
 def home(request):
     #didn't add ordering yet
@@ -189,3 +191,17 @@ def hall_of_fame(request):
     fame_list = Post.objects.order_by('-points')[:10]
     context_dict = {'hall_of_fame' : fame_list}
     return render(request, 'humans_of_hive/hall_of_fame', context=context_dict)
+
+@login_required
+def add_friend(request, username):
+    if request.user.is_authenticated():
+        user = User.objects.get(username=username)
+        Relationship.objects.get_or_create(from_person=request.user, to_person=user)
+        return HttpResponseRedirect(reverse('user_profile'))
+
+@login_required
+def show_friends(request, username):
+    user = User.objects.get(username=username)
+    related = user.relationships.filter(to_people__from_person=user)
+    context_dict = {'friends':related}
+    return render(request, 'user_profile/friend_list.html', context=context_dict)

@@ -434,7 +434,7 @@ def add_post(user, name, story, points):
 def add_user_profile(user, degree, level):
     u=UserProfile.objects.get_or_create(user=user)[0]
     u.degree=degree
-    u.level=level
+    u.level_of_study=level
     u.save()
     return u
 
