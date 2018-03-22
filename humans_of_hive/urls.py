@@ -13,4 +13,9 @@ urlpatterns = [
     url(r'^user_profile/$', views.show_profile, name='user_profile'),
     url(r'^user_posts/$', views.user_posts, name='user_posts'),
     url(r'^hall_of_fame/$', views.hall_of_fame, name='hall_of_fame'),
+    url(r'^users/$', views.all_users, name='users'),
+    url(r'^add_follower/$', views.follower_add, name='add_follower'),
+    url(r'^remove_follower/$', views.follower_remove, name='remove_follower'),
+    url(r'^followers_list/$', views.followers_list, name='followers_list'),
+    url(r'^following_list/$', views.following_list, name='following_list'),
 ]

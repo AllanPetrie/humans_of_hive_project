@@ -2,16 +2,11 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 
-#RELATIONSHIP_FOLLOWING = 1
-#RELATIONSHIP_BLOCKED = 2
-#RELATIONSHIP_STATUSES = ( (RELATIONSHIP_FOLLOWING, 'Following'), (RELATIONSHIP_BLOCKED, 'Blocked'), )
-
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     degree = models.CharField(max_length = 50)
     level_of_study = models.CharField(max_length = 20)
     profile_picture = models.ImageField(upload_to = 'profile_images', blank = True)
-    #follows = models.ManyToManyField('self', through=Relationship, symmetric =False, related_name='related_to')
 
     def __str__(self):
         return self.user.username
@@ -19,11 +14,6 @@ class UserProfile(models.Model):
     class Meta:
         #impose ordering on a UserProfile list
         ordering = ['user']
-
-#class Relationship(models.Model):
-#    from_user = models.ForeignKey(UserProfile, related_name='from_users')
-#    to_user = models.ForeignKey(UserProfile, related_name='to_users')
-#    status = models.IntegerField(choices=RELATIONSHIP_STATUSES)
 
 class Post(models.Model):
     title_length = 100

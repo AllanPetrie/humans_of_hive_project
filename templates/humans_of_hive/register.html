@@ -15,11 +15,11 @@
     </div>
     <nav>
       <ul>
-		<li><a href="home.html">Home</a></li>
-        <li><a href="user.html">User</a></li>
-        <li><a href="about.html">About</a></li>
-		<li><a href="halloffame.html">Hall of Fame</a></li>
-        <li><a href="login.html">Login/Register</a></li>
+		<li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'user_profile' %}">User</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+		<li><a href="{% url 'hall_of_fame' %}">Hall of Fame</a></li>
+        <li><a href="{% url 'register' %}">Login/Register</a></li>
       </ul>
     </nav>
   </header>

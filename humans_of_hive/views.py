@@ -7,12 +7,14 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import  login_required
 from datetime import datetime
 from django.contrib.auth.models import User
-from friendship.models import Friend, Follow
+from friendship.models import Follow
 
 def home(request):
     #didn't add ordering yet
     post_list = Post.objects
-    context_dict = {'posts': post_list}
+    context_dict = {'info': 'Nullamlacus dui ipsum conseque loborttis non euisque morbi penas dapibulum orna. '
+                            'Urnaultrices quis curabitur phasellentesque congue magnis vestibulum quismodo nulla et feugiat adipiscinia pellentum leo.',
+                    'posts': post_list}
     return render(request, 'humans_of_hive/home.html', context=context_dict)
 
 def about(request):
@@ -193,15 +195,43 @@ def hall_of_fame(request):
     return render(request, 'humans_of_hive/hall_of_fame', context=context_dict)
 
 @login_required
-def add_friend(request, username):
-    if request.user.is_authenticated():
-        user = User.objects.get(username=username)
-        Relationship.objects.get_or_create(from_person=request.user, to_person=user)
-        return HttpResponseRedirect(reverse('user_profile'))
+def all_users(request):
+    users = User.objects.filter(fieldname='searchterm')
+    context_dict = {'users': users.values_list('username', flat=True)}
+    return render(request, 'humans_of_hive/users', context=context_dict)
 
 @login_required
-def show_friends(request, username):
-    user = User.objects.get(username=username)
-    related = user.relationships.filter(to_people__from_person=user)
-    context_dict = {'friends':related}
-    return render(request, 'user_profile/friend_list.html', context=context_dict)
+def follower_add(request, followee_username):
+    context_dict = {'followee_username': followee_username}
+    if request.method == 'POST':
+        followee = User.objects.get(username=followee_username)
+        follower = request.user
+        try:
+            Follow.objects.add_follower(follower, followee)
+        except AlreadyExistsError as e:
+            context_dict['errors'] = ['%s' % e]
+    else:
+        return redirect('users', username=request.user.username)
+    return render(request, 'humans_of_hive/add_follower.html', context=context_dict)
+
+@login_required
+def follower_remove(request, followee_username):
+    if request.method == 'POST':
+        followee = User.objects.get(username=followee_username)
+        follower = request.user
+        Follow.objects.remove_follower(follower, followee)
+        return redirect('friendship_following', username=follower.username)
+    context_dict = {'followee_username': followee_username}
+    return render(request, 'humans_of_hive/remove_follower.html', context=context_dict)
+
+def followers_list(request, username):
+    user = User.objects.filter(username=username)
+    followers = Follow.objects.followers(user)
+    context_dict = {'username': user.username, 'followers': followers}
+    return render(request, 'humans_of_hive/followers_list.html', context=context_dict)
+
+def following_list(request, username):
+    user = User.objects.filter(username=username)
+    following = Follow.objects.following(user)
+    context_dict = {'username': user.username, 'following': following}
+    return render(request, 'humans_of_hive/following_list.html', context=context_dict)
