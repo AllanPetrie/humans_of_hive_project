@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
@@ -42,6 +43,30 @@
 			 <p>Nullamlacus dui ipsum conseque loborttis non euisque morbi penas dapibulum orna. Urnaultrices quis curabitur phasellentesque congue magnis vestibulum quismodo nulla et feugiat adipiscinia pellentum leo.</p>
     <!-- / content body -->
   </div>
+=======
+{% extends 'humans_of_hive/base.html' %}
+{% load staticfiles %}
+
+{% block titleblock %}
+  About
+{% endblock %}
+
+{% block bodyblock %}
+
+<h1><b>Welcome to humans of hive</b></h1>
+<div>
+  <p>
+    {{ info }}
+  </p>
+</div>
+<div>
+  Humans of hive was created by: <br />
+  <ul>
+    {% for owner in owners %}
+      <li>{{ owner }}</li>
+    {% endfor %}
+  </ul>
+>>>>>>> 63ac6820eb61bc140b2e5cfa75f288b47b5ca97b
 </div>
 <!-- Footer -->
 <div class="wrapper row3">

@@ -21,6 +21,6 @@ from humans_of_hive import views
 urlpatterns = [
     url(r'^$',views.home, name='home'),
     url(r'^humans_of_hive/',include('humans_of_hive.urls')),
-
     url(r'^admin/', admin.site.urls),
+    url(r'^friendship/', include('friendship.urls'))
 ]

@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from humans_of_hive.models import Post,Comment,UserProfile
+from humans_of_hive.models import Post,Comment,UserProfile#,Relationship
 from humans_of_hive.forms import PostForm,CommentForm,UserForm,UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import  login_required
 from datetime import datetime
+from django.contrib.auth.models import User
+from friendship.models import Friend, Follow
 
 def home(request):
     #didn't add ordering yet
@@ -14,7 +16,14 @@ def home(request):
     return render(request, 'humans_of_hive/home.html', context=context_dict)
 
 def about(request):
-    return render(request, 'humans_of_hive/about.html', {})
+    information = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sodales eros sit amet mattis vulputate. Vivamus porta vestibulum sem\
+    ut auctor. Morbi felis nulla, iaculis et aliquam non, rutrum eu felis. Integer sed metus ipsum. Fusce sit amet aliquam mauris.\
+    Aenean sollicitudin faucibus velit, vel molestie leo iaculis ac. Curabitur vulputate mi ante, nec aliquet elit tempus eu. Integer\
+    sed neque mattis, ullamcorper sapien quis, interdum risus. Pellentesque vel sodales purus, eu blandit magna. Nunc nec interdum\
+    ipsum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed at bibendum leo, sit amet placerat risus. Quisque et\
+    iaculis sem, non facilisis nulla. Maecenas in molestie tortor. Morbi consectetur at est vel hendrerit.'
+    context_dict = {'info': information, 'owners': ['Allan Petrie', 'Andrew Craig', 'Jonathan Henderson', 'Marija Vaskeviciute']}
+    return render(request, 'humans_of_hive/about.html', context=context_dict)
 
 def register(request):
     #Set registered to False to indicate that registration is ongoing
@@ -56,7 +65,7 @@ def register(request):
     context_dict = {'user_form':user_form, 'profile_form':profile_form, 'registered':registered}
     return render(request, 'humans_of_hive/register.html', context=context_dict)
 
-def login(request):
+def user_login(request):
     #If request is HTTP POST
     if request.method=='POST':
         #get information from the user
@@ -182,3 +191,17 @@ def hall_of_fame(request):
     fame_list = Post.objects.order_by('-points')[:10]
     context_dict = {'hall_of_fame' : fame_list}
     return render(request, 'humans_of_hive/hall_of_fame', context=context_dict)
+
+@login_required
+def add_friend(request, username):
+    if request.user.is_authenticated():
+        user = User.objects.get(username=username)
+        Relationship.objects.get_or_create(from_person=request.user, to_person=user)
+        return HttpResponseRedirect(reverse('user_profile'))
+
+@login_required
+def show_friends(request, username):
+    user = User.objects.get(username=username)
+    related = user.relationships.filter(to_people__from_person=user)
+    context_dict = {'friends':related}
+    return render(request, 'user_profile/friend_list.html', context=context_dict)
