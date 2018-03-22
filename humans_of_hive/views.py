@@ -197,18 +197,23 @@ def hall_of_fame(request):
 @login_required
 def all_users(request):
     users = User.objects.filter(fieldname='searchterm')
+    #Get all usernames of registered users
     context_dict = {'users': users.values_list('username', flat=True)}
     return render(request, 'humans_of_hive/users', context=context_dict)
 
 @login_required
 def follower_add(request, followee_username):
+    #If it is a POST request
     context_dict = {'followee_username': followee_username}
     if request.method == 'POST':
+        #get user that current user wants to follow
         followee = User.objects.get(username=followee_username)
         follower = request.user
         try:
             Follow.objects.add_follower(follower, followee)
+        #if that user is already being followed
         except AlreadyExistsError as e:
+            #add error to context dictionary
             context_dict['errors'] = ['%s' % e]
     else:
         return redirect('users', username=request.user.username)
@@ -216,22 +221,30 @@ def follower_add(request, followee_username):
 
 @login_required
 def follower_remove(request, followee_username):
+    #If it is a POST request
     if request.method == 'POST':
+        #get user that is to be removed
         followee = User.objects.get(username=followee_username)
         follower = request.user
+        #remove user
         Follow.objects.remove_follower(follower, followee)
+        #TODO: 'friendship_following' to be replaced by suitable url
         return redirect('friendship_following', username=follower.username)
     context_dict = {'followee_username': followee_username}
     return render(request, 'humans_of_hive/remove_follower.html', context=context_dict)
 
 def followers_list(request, username):
+    #Get user whose followers are to be listed
     user = User.objects.filter(username=username)
+    #collect all the followers of that user
     followers = Follow.objects.followers(user)
     context_dict = {'username': user.username, 'followers': followers}
     return render(request, 'humans_of_hive/followers_list.html', context=context_dict)
 
 def following_list(request, username):
+    #Get user whose followed users are to be listed
     user = User.objects.filter(username=username)
+    #collect all the users followed
     following = Follow.objects.following(user)
     context_dict = {'username': user.username, 'following': following}
     return render(request, 'humans_of_hive/following_list.html', context=context_dict)
