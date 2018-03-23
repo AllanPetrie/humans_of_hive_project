@@ -1,17 +1,15 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from humans_of_hive.models import Post,Comment,UserProfile#,Relationship
+from humans_of_hive.models import Post,Comment,UserProfile,Follow
 from humans_of_hive.forms import PostForm,CommentForm,UserForm,UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import  login_required
 from datetime import datetime
 from django.contrib.auth.models import User
-from friendship.models import Follow
 
 def home(request):
-    #didn't add ordering yet
-    post_list = Post.objects
+    post_list = Post.objects.order_by('time_posted')
     context_dict = {'info': 'Nullamlacus dui ipsum conseque loborttis non euisque morbi penas dapibulum orna. '
                             'Urnaultrices quis curabitur phasellentesque congue magnis vestibulum quismodo nulla et feugiat adipiscinia pellentum leo.',
                     'posts': post_list}

@@ -15,6 +15,61 @@ class UserProfile(models.Model):
         #impose ordering on a UserProfile list
         ordering = ['user']
 
+
+class ManageFollows(models.Model):
+    #Get a list of all those following a user
+    #Note: function expects a UserProfile instance
+    def follower_list(self, user):
+        followers = Follow.objects.filter(followee=user)
+        return followers
+
+    #Get a list of all users a user is following
+    #Note: function expects a UserProfile instance
+    def followee_list(self, user):
+        followees = Follow.objects.filter(follower=user)
+        return followees
+
+    #Check if user is following another user
+    def follows(self, follower, followee):
+        try:
+            Follow.objects.get(follower=follower, followee=followee)
+            return True
+        except Follow.DoesNotExist:
+            return False
+
+    #Add a new follower follows followee relationship
+    def add_follower(self, follower, followee):
+        relation, created = Follow.objects.get_or_create(follower=follower, followee=followee)
+        if not created:
+            raise AlreadyExistsError('User %s already follows %s' % (follower, followee))
+        return relation
+
+    #Remove follower follows followee relationship
+    def remove_follower(self, follower, followee):
+        try:
+            follow = Follow.objects.get(follower=follower, followee=followee)
+            follow.delete()
+            return True
+        except Follow.DoesNotExist:
+            return False
+
+class Follow(models.Model):
+    follower = models.ForeignKey(UserProfile, related_name='following')
+    followee = models.ForeignKey(UserProfile, related_name='followers')
+    created = models.DateTimeField(auto_now_add=True)
+    objects = ManageFollows()
+
+    def save(self, *args, **kwargs):
+        if self.follower == self.followee:
+            raise ValidationError('Users cannot follow themselves')
+        super(Follow, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return "User %s follows %s" % (self.follower.user.username, self.followee.user.username)
+
+    class Meta:
+        unique_together = ('follower', 'followee')
+
 class Post(models.Model):
     title_length = 100
     story_length = 999999
