@@ -159,7 +159,8 @@ def add_comment(request, post_name_slug):
                 comment=form.save(commit=False)
                 #set values in the model
                 comment.post = post
-                "comment.time_posted = get now date"
+                user_profile = UserProfile.objects.get(user=request.user)
+                comment.owner = user_profile
                 comment.save()
                 return show_post(request, post_name_slug)
         #If form is invalid or post does not exist
