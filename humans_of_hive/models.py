@@ -19,18 +19,21 @@ class UserProfile(models.Model):
 class ManageFollows(models.Model):
     #Get a list of all those following a user
     #Note: function expects a UserProfile instance
-    def follower_list(self, user):
+    @staticmethod
+    def follower_list(user):
         followers = Follow.objects.filter(followee=user)
         return followers
 
     #Get a list of all users a user is following
     #Note: function expects a UserProfile instance
-    def followee_list(self, user):
+    @staticmethod
+    def followee_list(user):
         followees = Follow.objects.filter(follower=user)
         return followees
 
     #Check if user is following another user
-    def follows(self, follower, followee):
+    @staticmethod
+    def follows(follower, followee):
         try:
             Follow.objects.get(follower=follower, followee=followee)
             return True
@@ -38,14 +41,16 @@ class ManageFollows(models.Model):
             return False
 
     #Add a new follower follows followee relationship
-    def add_follower(self, follower, followee):
+    @staticmethod
+    def add_follower(follower, followee):
         relation, created = Follow.objects.get_or_create(follower=follower, followee=followee)
         if not created:
             raise AlreadyExistsError('User %s already follows %s' % (follower, followee))
         return relation
 
     #Remove follower follows followee relationship
-    def remove_follower(self, follower, followee):
+    @staticmethod
+    def remove_follower(follower, followee):
         try:
             follow = Follow.objects.get(follower=follower, followee=followee)
             follow.delete()
