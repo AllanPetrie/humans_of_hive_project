@@ -1,74 +1,26 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-<title>Humans of Hive</title>
-<meta charset="iso-8859-1">
-<link rel="stylesheet" href="styles/layout.css" type="text/css">
+{% extends 'humans_of_hive/base.html' %}
+{% load staticfiles %}
 
-<!--[if lt IE 9]><script src="scripts/html5shiv.js"></script><![endif]-->
-</head>
-<body>
-<div class="wrapper row1">
-  <header id="header" class="clear">
-    <div id="hgroup">
-      <h1><a href="#title">Humans of Hive</a></h1>
+{% block title_block %}
+  Register
+{% endblock %}
+
+{% block body_block %}
+  <h1>Register</h1>
+
+  {% if registered %}
+    <div>
+      <i>Thank you for registering</i>
+      <a href="{% url 'home' %}">Return to homepage</a>
     </div>
-    <nav>
-      <ul>
-		<li><a href="{% url 'home' %}">Home</a></li>
-        <li><a href="{% url 'user_profile' %}">User</a></li>
-        <li><a href="{% url 'about' %}">About</a></li>
-		<li><a href="{% url 'hall_of_fame' %}">Hall of Fame</a></li>
-        <li><a href="{% url 'register' %}">Login/Register</a></li>
-      </ul>
-    </nav>
-  </header>
-</div>
-<!-- content -->
-<div class="wrapper row2">
-  <div id="container" class="clear">
-    <!-- Button to open the modal -->
-<button onclick="document.getElementById('id01').style.display='block'">Sign Up</button>
-<!-- The Modal (contains the Sign Up form) -->
-<div id="id01" class="modal">
-  <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">Return</span>
-  <form class="modal-content" action="/action_page.php">
-    <div class="container">
-      <h1>Sign Up</h1>
-      <p>Please fill in this form to create an account.</p>
-      <hr>
-      <label for="email"><b>Email</b></label>
-      <input type="text" placeholder="Enter Email" name="email" required>
+  {% else %}
+    <form id="user_form" method="post" action="{% url 'register'}" enctype="multipart/form-data">
+      {% csrf_token %}
 
-      <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" required>
+      {{ user_form.as_p }}
+      {{ profile_form.as_p }}
 
-      <label for="psw-repeat"><b>Repeat Password</b></label>
-      <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
-
-	  <label for="email"><b>Phone Number</b></label>
-      <input type="text" placeholder="Enter Number" name="number" required>
-	  
-      <label>
-        <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
-      </label>
-
-      <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
-
-      <div class="clearfix">
-        <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-        <button type="submit" class="signup">Sign Up</button>
-      </div>
-    </div>
-  </form>
-</div>
-  </div>
-</div>
-<!-- Footer -->
-<div class="wrapper row3">
-  <footer id="footer" class="clear">
-    <p class="fl_left">Copyright &copy; 2018 - <a href="#">Humans of Hive Project</a></p>
-  </footer>
-</div>
-</body>
-</html>
+      <input type="submit" name="submit" value="Register" />
+    </form>
+  {% endif %}
+{% endblock %}

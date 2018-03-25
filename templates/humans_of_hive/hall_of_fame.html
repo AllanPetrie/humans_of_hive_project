@@ -1,76 +1,40 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-<title>Humans of Hive</title>
-<meta charset="iso-8859-1">
-<link rel="stylesheet" href="styles/layout.css" type="text/css">
-<!--[if lt IE 9]><script src="scripts/html5shiv.js"></script><![endif]-->
-</head>
-<body>
-<div class="wrapper row1">
-  <header id="header" class="clear">
-    <div id="hgroup">
-      <h1><a href="#title">Humans of Hive</a></h1>
-    </div>
-    <nav>
-      <ul>
-		<li><a href="{% url 'home' %}">Home</a></li>
-        <li><a href="{% url 'user_profile' %}">User</a></li>
-        <li><a href="{% url 'about' %}">About</a></li>
-		<li><a href="{% url 'hall_of_fame' %}">Hall of Fame</a></li>
-        <li><a href="{% url 'register' %}">Login/Register</a></li>
-      </ul>
-    </nav>
-  </header>
-</div>
-<!-- content -->
-<div class="wrapper row2">
-  <div id="container" class="clear">
-    <!-- Slider -->
-    <section id="slider" class="clear">
-      <figure><img src="images/best_poster.jpg" alt="Image of Hive">
-        <figcaption>
-          <h2>Best Post of The Week</h2>
-          <p>Nullamlacus dui ipsum conseque loborttis non euisque morbi penas dapibulum orna. Urnaultrices quis curabitur phasellentesque congue magnis vestibulum quismodo nulla et feugiat adipiscinia pellentum leo.</p>
-        <footer class="more"><a href="post.html">Read More &raquo;</a></footer>
-		</figcaption>
-      </figure>
-    </section>
-    <!-- main content -->
-    <div id="homepage">
+{% extends 'humans_of_hive/base.html' %}
+{% load staticfiles %}
+
+
+{% block title_block %}
+  <head>
+    <title>Humans of Hive</title>
+    <link rel="stylesheet" href="styles/layout.css" type="text/css">
+  </head>
+{% endblock %}
+
+{% block body_block %}
+  <div class="wrapper row1">
+    <header id="header" class="clear">
+      <div id="hgroup">
+        <h1><a href="#title">Humans of Hive: Hall of Fame</a></h1>
+      </div>
+
+    <div id="hall_of_fame">
       <!-- services area -->
       <section id="services" class="clear">
-        <!-- article 1 -->
-        <article class="one_third">
-          <h2>Second Best Post</h2>
-          <img src="images/img1.jpg" alt="Picture of Club">
-          <p>Vestibulumaccumsan egestibulum eu justo convallis augue estas aenean elit intesque sed. Facilispede estibulum nulla orna nisl velit elit ac aliquat non tincidunt. Namjusto cras urna urnaretra lor urna neque sed quis orci nulla. Laoremut vitae doloreet condimentumst phasellentes dolor ut a ipsum id consectetus. Inpede cumst vitae ris tellentesque fring intesquet.</p>
-          <footer class="more"><a href="#">Read More &raquo;</a></footer>
-        </article>
-        <!-- article 2 -->
-        <article class="one_third">
-          <h2>Third Best Post</h2>
-          <img src="images/img2.jpg" alt="Picture of Club">
-          <p>Vestibulumaccumsan egestibulum eu justo convallis augue estas aenean elit intesque sed. Facilispede estibulum nulla orna nisl velit elit ac aliquat non tincidunt. Namjusto cras urna urnaretra lor urna neque sed quis orci nulla. Laoremut vitae doloreet condimentumst phasellentes dolor ut a ipsum id consectetus. Inpede cumst vitae ris tellentesque fring intesquet.</p>
-          <footer class="more"><a href="#">Read More &raquo;</a></footer>
-        </article>
-        <!-- article 3 -->
-        <article class="one_third lastbox">
-          <h2>Fourth Best Post</h2>
-          <img src="images/img3.jpg" alt="Picture of Club">
-          <p>Vestibulumaccumsan egestibulum eu justo convallis augue estas aenean elit intesque sed. Facilispede estibulum nulla orna nisl velit elit ac aliquat non tincidunt. Namjusto cras urna urnaretra lor urna neque sed quis orci nulla. Laoremut vitae doloreet condimentumst phasellentes dolor ut a ipsum id consectetus. Inpede cumst vitae ris tellentesque fring intesquet.</p>
-          <footer class="more"><a href="#">Read More &raquo;</a></footer>
-        </article>
-      </section>
+      <!-- article 1 -->
+      {% if posts %}
+      <ul>
+        {% for post in posts %}
+        <li>
+          <article class="one_third">
+              <!--still need to display image -->
+              <b>{{post.user}}</b>
+              <a href="{% url 'show_post' post.slug %}">{{post.title}}</a>
+            </article>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+        <strong>Sorry, there aren't any posts to show just now</strong>
+      {% endif %}
+      </selection>
     </div>
-    <!-- / content body -->
-  </div>
-</div>
-<!-- Footer -->
-<div class="wrapper row3">
-  <footer id="footer" class="clear">
-    <p class="fl_left">Copyright &copy; 2018 - <a href="#">Humans of Hive Project</a></p>
-  </footer>
-</div>
-</body>
-</html>
+{% endblock %}

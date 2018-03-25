@@ -4,3 +4,29 @@
 {% block title_block %}
   {{ post.title }}
 {% endblock %}
+
+{% block body_block %}
+  {% if post %}
+    <p>{{ post.story }}</p>
+    <hr />
+    {% if comments %}
+      {% for comment in comments %}
+        <ul>
+          <li>
+            <div>
+              <b>{{comment.owner}}</b>
+              <p>{{comment.content}}</p>
+            </div>
+          </li>
+        </ul>
+      {% endfor %}
+    {% else %}
+      <i>There aren't any comment right now</i>
+    {% endif %}
+    {% else %}
+      <b>Something went wrong</b>
+  {% endif %}
+
+  <a href='{% url "add_comment" post.slug %}'>Add a comment</a>
+
+  {% endblock %}

@@ -8,6 +8,26 @@ from django.contrib.auth.decorators import  login_required
 from datetime import datetime
 from django.contrib.auth.models import User
 
+'''
+List of views for convenience:
+-home
+-about
+-register
+-user_login
+-logout
+-show_post
+-add_post
+-add_comment
+-show_profile
+-user_posts
+-hall_of_fame
+-all_users ?????
+-follower_add
+-follower_remove
+-followers_list
+-following_list
+'''
+
 def home(request):
     post_list = Post.objects.order_by('time_posted')
     context_dict = {'info': 'Nullamlacus dui ipsum conseque loborttis non euisque morbi penas dapibulum orna. '
@@ -136,7 +156,7 @@ def add_post(request):
             #print out error message(s)
             print(form.errors)
     context_dict={'form':form}
-    return render(request, 'humans_of_hive/home.html', context=context_dict)
+    return render(request, 'humans_of_hive/add_post.html', context=context_dict)
 
 @login_required
 def add_comment(request, post_name_slug):
@@ -168,7 +188,8 @@ def add_comment(request, post_name_slug):
             #print errors
             print(form.errors)
     context_dict = {'form': form, 'post': post}
-    return render(request, 'humans_of_hive/home.html', context_dict)
+
+    return render(request, 'humans_of_hive/view_post.html', context_dict)
 
 @login_required
 def show_profile(request):
@@ -177,7 +198,7 @@ def show_profile(request):
     #get user profile of the current user
     user = UserProfile.objects.filter(user = current_user)
     context_dict = {'user_profile' : user}
-    return render(request, 'humans_of_hive/user_profile', context=context_dict)
+    return render(request, 'humans_of_hive/user_profile.html', context=context_dict)
 
 @login_required
 def user_posts(request):
@@ -186,19 +207,19 @@ def user_posts(request):
     #get posts by current user
     posts = Post.objects.filter(user=current_user)
     context_dict = {'posts':posts}
-    return render(request, 'humans_of_hive/user_posts', context=context_dict)
+    return render(request, 'humans_of_hive/user_posts.html', context=context_dict)
 
 def hall_of_fame(request):
     fame_list = Post.objects.order_by('-points')[:10]
-    context_dict = {'hall_of_fame' : fame_list}
-    return render(request, 'humans_of_hive/hall_of_fame', context=context_dict)
+    context_dict = {'posts' : fame_list}
+    return render(request, 'humans_of_hive/hall_of_fame.html', context=context_dict)
 
 @login_required
 def all_users(request):
     users = User.objects.filter(fieldname='searchterm')
     #Get all usernames of registered users
     context_dict = {'users': users.values_list('username', flat=True)}
-    return render(request, 'humans_of_hive/users', context=context_dict)
+    return render(request, 'humans_of_hive/users.html', context=context_dict)
 
 @login_required
 def follower_add(request, followee_username):

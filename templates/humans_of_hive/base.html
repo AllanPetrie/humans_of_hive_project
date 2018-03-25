@@ -2,11 +2,11 @@
 {% load staticfiles %}
 
  <html>
-  <head lang = "en">
-    <meta charset="utf-8" />
+  <html lang="en" dir="ltr">
+  <meta charset="utf-8" />
     <title>
       Humans of Hive-
-      {% block titleblock %}
+      {% block title_block %}
         A site for all your Hive stories!
       {% endblock %}
     </title>
@@ -16,7 +16,7 @@
 
   <body>
     <div>
-      {% block bodyblock %}
+      {% block body_block %}
       {% endblock %}
     </div>
     <hr />
@@ -26,6 +26,7 @@
         {% if user.is_authenticated %}
           <li><a href="{% url 'add_post' %}">Add a story</a></li>
           <li><a href="{% url 'user_profile'}">View profile</a></li>
+          <li><a href = "{% url 'logout' %}">Logout</a></li>
         {% else %}
           <li><a href="{% url 'login' %}">Sign in</a></li>
           <li><a href="{% url 'register' %}">Sign up</a></li>
@@ -34,5 +35,11 @@
           <li><a href="{% url 'hall_of_fame' %}">Hall of Fame</a></li>
           <li><a href="{% url 'about' %}">About</a></li>
       </ul>
+
+      <div>
+        <footer id="footer" class="clear">
+          <p class="fl_left">Copyright &copy; 2018 - <a href="#">Humans of Hive Project</a></p>
+        </footer>
+      </div>
   </body>
 </html>
