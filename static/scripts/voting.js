@@ -1,5 +1,5 @@
 function upvote(){
-  window.alrert("upvote")
+  window.alert("upvote")
 }
 
 function downvote(){
