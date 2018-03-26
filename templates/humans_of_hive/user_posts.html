@@ -4,3 +4,20 @@
 {% block title_block %}
   My posts
 {% endblock %}
+
+{% block body_block %}
+  {% if posts %}
+    <ul>
+      {% for post in posts %}
+        <li>
+          <article class="one_third">
+            <a href="{% url 'show_post' post.slug %}">{{post.title}}</a>
+            <!--show post image, user and points-->
+          </article>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <strong>You haven't made any posts yet</strong>
+    <a href="{% url 'add_post' %}">Add a story now?</a>
+{% endif %}

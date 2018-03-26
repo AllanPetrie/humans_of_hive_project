@@ -7,7 +7,7 @@
   <head>
     {% block script_block %}
     {% endblock %}
-    <!--<link rel="stylesheet" href="styles/layout.css" type="text/css">-->
+    <link rel="stylesheet" href="styles/layout.css" type="text/css">
 
     <title>
       Humans of Hive-
@@ -29,7 +29,7 @@
       <ul>
         {% if user.is_authenticated %}
           <li><a href="{% url 'add_post' %}">Add a story</a></li>
-          <li><a href="{% url 'user_profile' %}">View profile</a></li>
+          <li><a href="{% url 'user_profile' %}">My profile</a></li>
           <li><a href = "{% url 'logout' %}">Logout</a></li>
         {% else %}
           <li><a href="{% url 'login' %}">Sign in</a></li>
