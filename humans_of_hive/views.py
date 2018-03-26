@@ -118,7 +118,7 @@ def user_login(request):
         return render(request, 'humans_of_hive/login.html', {})
 
 @login_required
-def logout(request):
+def user_logout(request):
     #User is certainly logged on, so simply logout
     logout(request)
     return HttpResponseRedirect(reverse('home'))
