@@ -7,7 +7,7 @@ class PostForm(forms.ModelForm):
     points = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     story = forms.CharField(max_length=Post.story_length, help_text='Tell your story')
     picture = forms.ImageField(help_text='Add a picture', required=False)
-    time_posted = forms.DateTimeField(widget=forms.HiddenInput())
+    time_posted = forms.DateTimeField(widget=forms.HiddenInput(), required=False)
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
     class Meta:
         #choose model to use
@@ -17,7 +17,7 @@ class PostForm(forms.ModelForm):
 
 class CommentForm(forms.ModelForm):
     content = forms.CharField(max_length=Comment.comment_length, help_text='Comment')
-    time_posted = forms.DateTimeField(widget=forms.HiddenInput())
+    time_posted = forms.DateTimeField(widget=forms.HiddenInput(), required=False)
     class Meta:
         #choose model to use
         model = Comment

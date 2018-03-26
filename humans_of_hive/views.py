@@ -29,7 +29,7 @@ List of views for convenience:
 '''
 
 def home(request):
-    post_list = Post.objects.order_by('time_posted')
+    post_list = Post.objects.order_by('-time_posted')
     context_dict = {'info': 'Nullamlacus dui ipsum conseque loborttis non euisque morbi penas dapibulum orna. '
                             'Urnaultrices quis curabitur phasellentesque congue magnis vestibulum quismodo nulla et feugiat adipiscinia pellentum leo.',
                     'posts': post_list}
@@ -149,8 +149,11 @@ def add_post(request):
         #If forms is valid
         if form.is_valid():
             #save new post to the category
-            form.save(commit=True)
-            return index(request)
+            post=form.save(commit=False)
+            #set user value
+            post.user = UserProfile.objects.get(user=request.user)
+            post.save()
+            return home(request)
         #If form is NOT valid
         else:
             #print out error message(s)

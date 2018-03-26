@@ -439,7 +439,10 @@ def add_user_profile(user, degree, level):
     return u
 
 def add_user(name, email, password):
-    u=User.objects.create_user(username=name, email=email, password=password)
+    if not User.objects.filter(username=name, email=email, password=password).exists():
+        u=User.objects.create_user(username=name, email=email, password=password)
+    else:
+        u=User.objects.get(username=name)
     return u
 
 #Helper function to get a user profile given a username

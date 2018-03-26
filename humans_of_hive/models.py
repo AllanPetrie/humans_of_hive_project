@@ -1,6 +1,7 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
+from datetime import datetime
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
@@ -88,7 +89,7 @@ class Post(models.Model):
     points = models.IntegerField(default = 0)
     story = models.CharField(max_length = story_length)
     picture = models.ImageField(upload_to='post_photos', blank=True, null=True)
-    time_posted = models.DateTimeField(auto_now_add = True)
+    time_posted = models.DateTimeField(auto_now=True)
     slug = models.SlugField(blank=True, unique=True)
 
     def save(self, *args, **kwargs):
@@ -107,7 +108,7 @@ class Comment(models.Model):
     owner = models.ForeignKey(UserProfile, default=None)
     post = models.ForeignKey(Post)
     content = models.CharField(max_length = comment_length)
-    time_posted = models.DateTimeField(auto_now_add = True)
+    time_posted = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return str(self.owner) +" "+ str(self.post)+" "+ str(self.time_posted)
