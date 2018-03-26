@@ -1,24 +1,43 @@
 {% extends 'humans_of_hive/base.html' %}
 {% load staticfiles %}
 
+{% block script_block %}
+  <script type="text/javascript" src="voting.js"></script>
+{% endblock %}
+
 {% block title_block %}
   {{ post.title }}
 {% endblock %}
 
 {% block body_block %}
   {% if post %}
-    <p>{{ post.story }}</p>
-    <hr />
+    <div>
+      <h1>{{ post.title }}</h1>
+      <b>{{ post.user }}</b>
+      <p>{{ post.story }}</p>
+      {% if post.picture %}
+        <img src="{{ MEDIA_URL }}{{ post.img }}" />
+      {% endif %}
+      <hr />
+    </div>
+
+    <!--Upvote/Downvote buttons -->
+    <div>
+      <input id="Upvote" type="button" value="Upvote" />
+      <input id="Downvote" type="button" value="Downvote" />
+    </div>
+
+    <h2>Comments</h2>
     {% if comments %}
       {% for comment in comments %}
-        <ul>
-          <li>
-            <div>
+        <div>
+          <ul>
+            <li>
               <b>{{comment.owner}}</b>
               <p>{{comment.content}}</p>
-            </div>
-          </li>
-        </ul>
+            </li>
+          </ul>
+        </div>
       {% endfor %}
     {% else %}
       <i>There aren't any comment right now</i>

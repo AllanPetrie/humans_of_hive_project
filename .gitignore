@@ -1,2 +1,2 @@
 db.sqlite3
-humans_of_hive_project\__pycache__\
+*.pyc

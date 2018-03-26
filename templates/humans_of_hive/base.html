@@ -4,14 +4,18 @@
  <html>
   <html lang="en" dir="ltr">
   <meta charset="utf-8" />
+  <head>
+    {% block script_block %}
+    {% endblock %}
+    <!--<link rel="stylesheet" href="styles/layout.css" type="text/css">-->
+
     <title>
       Humans of Hive-
       {% block title_block %}
         A site for all your Hive stories!
       {% endblock %}
     </title>
-    {% block script_block %}
-    {% endblock %}
+
   </head>
 
   <body>
@@ -25,7 +29,7 @@
       <ul>
         {% if user.is_authenticated %}
           <li><a href="{% url 'add_post' %}">Add a story</a></li>
-          <li><a href="{% url 'user_profile'}">View profile</a></li>
+          <li><a href="{% url 'user_profile' %}">View profile</a></li>
           <li><a href = "{% url 'logout' %}">Logout</a></li>
         {% else %}
           <li><a href="{% url 'login' %}">Sign in</a></li>

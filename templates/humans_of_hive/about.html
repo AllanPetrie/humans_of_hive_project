@@ -1,53 +1,26 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-<title>Humans of Hive</title>
-<meta charset="iso-8859-1">
-<link rel="stylesheet" href="styles/layout.css" type="text/css">
-<!--[if lt IE 9]><script src="scripts/html5shiv.js"></script><![endif]-->
-</head>
-<body>
-<div class="wrapper row1">
-  <header id="header" class="clear">
-    <div id="hgroup">
-      <h1><a href="#title">Humans of Hive</a></h1>
+{% extends 'humans_of_hive/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+  About Humans of Hive
+{% endblock %}
+
+{% block body_block %}
+  <h1>About Humans of Hive</h1><be />
+  <p>{{ info }}</p><hr />
+
+  {% if owners %}
+    <div>
+      <h2>Humans of Hive was created by:</h2>
+      {% for owner in ownners %}
+        <ul>
+          <li><{{ owner }}</li>
+        </ul>
+      {% endfor %}
     </div>
-    <nav>
-      <ul>
-		<li><a href="{% url 'home' %}">Home</a></li>
-        <li><a href="{% url 'user_profile' %}">User</a></li>
-        <li><a href="{% url 'about' %}">About</a></li>
-		<li><a href="{% url 'hall_of_fame' %}">Hall of Fame</a></li>
-        <li><a href="{% url 'register' %}">Login/Register</a></li>
-      </ul>
-    </nav>
-  </header>
-</div>
-<!-- content -->
-<div class="wrapper row2">
-  <div id="container" class="clear">
-    <!-- Slider -->
-    <section id="slider" class="clear">
-      <figure><img src="images/hivebar.jpg" alt="Image of Hive">
-        <figcaption>
-          <h2>Description about Hive</h2>
-          <p>Nullamlacus dui ipsum conseque loborttis non euisque morbi penas dapibulum orna. Urnaultrices quis curabitur phasellentesque congue magnis vestibulum quismodo nulla et feugiat adipiscinia pellentum leo.</p>
-        <footer class="more"><a href="home.html">Back to Home &raquo;</a></footer>
-		</figcaption>
-      </figure>
-    </section>
-    <!-- main content -->
-	          <p>Nullamlacus dui ipsum conseque loborttis non euisque morbi penas dapibulum orna. Urnaultrices quis curabitur phasellentesque congue magnis vestibulum quismodo nulla et feugiat adipiscinia pellentum leo.</p>
-          <p>Nullamlacus dui ipsum conseque loborttis non euisque morbi penas dapibulum orna. Urnaultrices quis curabitur phasellentesque congue magnis vestibulum quismodo nulla et feugiat adipiscinia pellentum leo.</p>             
-			 <p>Nullamlacus dui ipsum conseque loborttis non euisque morbi penas dapibulum orna. Urnaultrices quis curabitur phasellentesque congue magnis vestibulum quismodo nulla et feugiat adipiscinia pellentum leo.</p>
-    <!-- / content body -->
-  </div>
-</div>
-<!-- Footer -->
-<div class="wrapper row3">
-  <footer id="footer" class="clear">
-    <p class="fl_left">Copyright &copy; 2018 - <a href="#">Humans of Hive Project</a></p>
-  </footer>
-</div>
-</body>
-</html>
+  {% endif %}
+
+  <hr />
+  <img src="{% static 'images/hive.jpg'}" alt="Picture of Hive" />
+
+  {% endblock %}
