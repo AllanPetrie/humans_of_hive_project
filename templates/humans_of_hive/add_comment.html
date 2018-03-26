@@ -8,7 +8,7 @@
 {% block body_block %}
   <h1>Add a comment</h1>
   <div>
-    <form id="CommentForm" method="post" action="/humans_of_hive/add_comment/">
+    <form id="CommentForm" method="post" action="{% url 'add_comment' post.slug %}">
       {% csrf_token %}
       {% for hidden in form.hidden_fields %}
         {{ hidden }}

@@ -87,7 +87,7 @@ class Post(models.Model):
     title = models.CharField(max_length = title_length)
     points = models.IntegerField(default = 0)
     story = models.CharField(max_length = story_length)
-    picture = models.ImageField(upload_to='post_photos', blank=True)
+    picture = models.ImageField(upload_to='post_photos', blank=True, null=True)
     time_posted = models.DateTimeField(auto_now_add = True)
     slug = models.SlugField(blank=True, unique=True)
 

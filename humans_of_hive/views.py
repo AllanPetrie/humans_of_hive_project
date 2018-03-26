@@ -145,7 +145,7 @@ def add_post(request):
     #If request is HTTP POST
     if request.method=='POST':
         #indicate POST request to form
-        form=CategoryForm(request.POST)
+        form=PostForm(request.POST)
         #If forms is valid
         if form.is_valid():
             #save new post to the category
