@@ -188,21 +188,27 @@ def add_comment(request, post_name_slug):
             #print errors
             print(form.errors)
     context_dict = {'form': form, 'post': post}
+    return render(request, 'humans_of_hive/add_comment.html', context_dict)
 
-    return render(request, 'humans_of_hive/view_post.html', context_dict)
+#@login_required
+#def show_profile(request, user_name_slug):
+#    context_dict = {}
+#    try:
+#        #get the requested user
+#        user_profile = UserProfile.objects.get(slug=user_name_slug)
+#        #update context dictionary
+#        context_dict['user_profile'] = user_profile
+#    except UserProfile.DoesNotExist:
+#        #update context dictionary
+#        context_dict['user_profile'] = None
+#    return render(request, 'humans_of_hive/user_profile.html', context=context_dict)
 
 @login_required
-def show_profile(request, user_name_slug):
-    context_dict = {}
-    try:
-        #get the requested user
-        user_profile = UserProfile.objects.get(slug=user_name_slug)
-        #update context dictionary
-        context_dict['user_profile'] = user_profile
-    except UserProfile.DoesNotExist:
-        #update context dictionary
-        context_dict['user_profile'] = None
+def show_profile(request):
+    user_profile = UserProfile.objects.get(user=request.user)
+    context_dict = {'user_profile': user_profile}
     return render(request, 'humans_of_hive/user_profile.html', context=context_dict)
+
 
 @login_required
 def user_posts(request):
