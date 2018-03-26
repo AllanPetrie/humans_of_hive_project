@@ -239,12 +239,12 @@ def all_users(request):
     return render(request, 'humans_of_hive/users.html', context=context_dict)
 
 @login_required
-def follow(request, followee_username):
+def follow(request, user_name_slug):
     #If it is a POST request
-    context_dict = {'followee_username': followee_username}
     if request.method == 'POST':
         #get user that current user wants to follow
-        followee = User.objects.get(username=followee_username)
+        followee = UserProfile.objects.get(slug=user_name_slug).user
+        context_dict = {'followee_username': followee.username}
         follower = request.user
         try:
             Follow.objects.add_follower(follower, followee)

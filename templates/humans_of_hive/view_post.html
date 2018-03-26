@@ -14,6 +14,7 @@
     <div>
       <h1>{{ post.title }}</h1>
       <b>{{ post.user }}</b>
+        <a href="{% url 'add_follower' user %}">Follow</a>
       <p>{{ post.story }}</p>
       {% if post.picture %}
         <img src="{{ MEDIA_URL }}{{ post.img }}" />
