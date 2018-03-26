@@ -191,13 +191,33 @@ def add_comment(request, post_name_slug):
 
     return render(request, 'humans_of_hive/view_post.html', context_dict)
 
+def show_post(request, post_name_slug):
+    context_dict = {}
+    try:
+        #get the requested post
+        post = Post.objects.get(slug=post_name_slug)
+        #get comments of that post
+        comments = Comment.objects.filter(post=post)
+        #populate context dictionary
+        context_dict['post'] = post
+        context_dict['comments'] = comments
+    except Post.DoesNotExist:
+        #update context dictionary
+        context_dict['post'] = None
+        context_dict['comments'] = None
+    return render(request, 'humans_of_hive/view_post.html', context=context_dict)
+
 @login_required
-def show_profile(request):
-    #Get current user
-    current_user = request.user
-    #get user profile of the current user
-    user = UserProfile.objects.filter(user = current_user)
-    context_dict = {'user_profile' : user}
+def show_profile(request, user_name_slug):
+    context_dict = {}
+    try:
+        #get the requested user
+        user_profile = UserProfile.objects.get(slug=user_name_slug)
+        #update context dictionary
+        context_dict['user_profile'] = user_profile
+    except UserProfile.DoesNotExist:
+        #update context dictionary
+        context_dict['user_profile'] = None
     return render(request, 'humans_of_hive/user_profile.html', context=context_dict)
 
 @login_required
