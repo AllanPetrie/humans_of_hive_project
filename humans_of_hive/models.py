@@ -47,8 +47,8 @@ class ManageFollows(models.Model):
             return False
 
     #Add a new follower follows followee relationship
-    @staticmethod
-    def add_follower(follower, followee):
+    #@staticmethod
+    def add_follower(self, follower, followee):
         relation, created = Follow.objects.get_or_create(follower=follower, followee=followee)
         if not created:
             raise AlreadyExistsError('User %s already follows %s' % (follower, followee))

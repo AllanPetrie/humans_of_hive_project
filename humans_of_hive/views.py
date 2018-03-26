@@ -130,11 +130,15 @@ def show_post(request, post_name_slug):
         post = Post.objects.get(slug=post_name_slug)
         #get comments of that post
         comments = Comment.objects.filter(post=post)
+        #get slug for user that created a post
+        user = UserProfile.objects.get(user=post.user.user).slug
         #populate context dictionary
         context_dict['post'] = post
         context_dict['comments'] = comments
+        context_dict['user'] = user
     except Post.DoesNotExist:
         #populate context dictionary
+        context_dict['user'] = None
         context_dict['post'] = None
         context_dict['comments'] = None
     return render(request, 'humans_of_hive/view_post.html', context=context_dict)
@@ -235,7 +239,7 @@ def all_users(request):
     return render(request, 'humans_of_hive/users.html', context=context_dict)
 
 @login_required
-def follower_add(request, followee_username):
+def follow(request, followee_username):
     #If it is a POST request
     context_dict = {'followee_username': followee_username}
     if request.method == 'POST':
@@ -248,8 +252,6 @@ def follower_add(request, followee_username):
         except AlreadyExistsError as e:
             #add error to context dictionary
             context_dict['errors'] = ['%s' % e]
-    else:
-        return redirect('users', username=request.user.username)
     return render(request, 'humans_of_hive/add_follower.html', context=context_dict)
 
 @login_required
