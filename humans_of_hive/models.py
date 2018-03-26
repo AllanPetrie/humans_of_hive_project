@@ -7,6 +7,11 @@ class UserProfile(models.Model):
     degree = models.CharField(max_length = 50)
     level_of_study = models.CharField(max_length = 20)
     profile_picture = models.ImageField(upload_to = 'profile_images', blank = True)
+    slug = models.SlugField(blank=True, unique=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.user.username)
+        super(UserProfile, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.user.username
