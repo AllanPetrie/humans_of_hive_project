@@ -7,16 +7,16 @@
 
 {% block body_block %}
   {% if user_profile.image_exists == True %}
-    <img src="{{MEDIA_URL}}/images/{{ user_profile.image }}" alt="profile photo" /></br>
+    <img src="{{MEDIA_URL}}/images/{{ user_profile.image }}" alt="profile photo" /><br>
   {% endif %}
-  <b>Username:</b>{{ user_profile.user }}</br>
-  <b>Degree:</b>{{ user_profile.degree }}</br>
-  <b>Level of Study:</b>{{ user_profile.level_of_study }}</br>
-  <a href="{% url 'user_posts' user_profile.slug %}">View my posts</a></br>
-  <b>I am following:</b></br>
+  <b>Username:</b>{{ user_profile.user }}<br>
+  <b>Degree:</b>{{ user_profile.degree }}<br>
+  <b>Level of Study:</b>{{ user_profile.level_of_study }}<br>
+  <a href="{% url 'user_posts' user_profile.slug %}">View my posts</a><br>
+  <b>I am following:</b><br>
   {% for followee in following %}
     {% if followee == None %}
-      <i>You are not following anyone</i></br>
+      <i>You are not following anyone</i><br>
     {% else %}
       {% for f in followee %}
         <li>
@@ -26,10 +26,10 @@
       {% endfor %}
     {% endif %}
   {% endfor %}
-  <b>My followers:</b></<br>
+  <b>My followers:</b><br>
   {% for follower in followers %}
     {% if follower == None %}
-      <i>You have no followers yet</i></<br>
+      <i>You have no followers yet</i><br>
     {% else %}
       {% for f in follower %}
         <li>
