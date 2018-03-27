@@ -14,8 +14,8 @@ urlpatterns = [
     url(r'^user_posts/$', views.user_posts, name='user_posts'),
     url(r'^hall_of_fame/$', views.hall_of_fame, name='hall_of_fame'),
     url(r'^users/$', views.all_users, name='users'),
-    url(r'^(?P<user_name_slug>[\w\-]+)/$', views.follow, name='add_follower'),
-    url(r'^remove_follower/$', views.follower_remove, name='remove_follower'),
+    url(r'^(?P<post_name_slug>[\w\-]+)/(?P<user_name_slug>[\w\-]+)/follow/$', views.follow, name='add_follower'),
+    url(r'^(?P<post_name_slug>[\w\-]+)/(?P<user_name_slug>[\w\-]+)/unfollow/$', views.unfollow, name='remove_follower'),
     url(r'^followers_list/$', views.followers_list, name='followers_list'),
     url(r'^following_list/$', views.following_list, name='following_list'),
 ]

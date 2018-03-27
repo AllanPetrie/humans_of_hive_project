@@ -3,15 +3,17 @@
 
 {% block title_block %}
     Add Follower
-(% endblock %}
+{% endblock %}
 
 {% block body_block %}
     {% if not followee_username == request.user.username %}
     {% if errors %}<p>{{ errors|join:", " }}</p>{% endif %}
     <form method="post">
-        {% csrf_token %}
-        <input type="hidden" name="followee_username" value="{{ followee_username }}" />
-        <input type="submit" value="start following {{ followee_username }}" />
+    {% csrf_token %}
+    <b>{{ followee }}</b>
+    <b>{{ follower }}</b>
+    <input type="hidden" name="followee_username" value="{{ followee_username }}" />
+    <input type="submit" value="start following {{ followee_username }}" />
     </form>
     {% endif %}
 {% endblock %}

@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from humans_of_hive.models import Post,Comment,UserProfile,Follow
+from humans_of_hive.models import Post,Comment,UserProfile,Follow,FollowingManager
 from humans_of_hive.forms import PostForm,CommentForm,UserForm,UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import  login_required
 from datetime import datetime
 from django.contrib.auth.models import User
+from django.db import IntegrityError
 
 '''
 List of views for convenience:
@@ -131,16 +132,20 @@ def show_post(request, post_name_slug):
         #get comments of that post
         comments = Comment.objects.filter(post=post)
         #get slug for user that created a post
-        user = UserProfile.objects.get(user=post.user.user).slug
+        user = UserProfile.objects.get(user=post.user.user)
+        follower = UserProfile.objects.get(user=request.user)
+        follows = Follow.follow_objects.follows(follower=follower, followee=user)
         #populate context dictionary
         context_dict['post'] = post
         context_dict['comments'] = comments
-        context_dict['user'] = user
+        context_dict['user'] = user.slug
+        context_dict['follows'] = follows
     except Post.DoesNotExist:
         #populate context dictionary
         context_dict['user'] = None
         context_dict['post'] = None
         context_dict['comments'] = None
+        context_dict['follows'] = None
     return render(request, 'humans_of_hive/view_post.html', context=context_dict)
 
 @login_required
@@ -214,6 +219,14 @@ def add_comment(request, post_name_slug):
 def show_profile(request):
     user_profile = UserProfile.objects.get(user=request.user)
     context_dict = {'user_profile': user_profile}
+    # Get user whose followers and followees are to be listed
+    user = User.objects.filter(username=username)
+    # collect all the followers of that user
+    followers = Follow.objects.followers(user)
+    context_dict['followers'] = [followers]
+    # collect all the users followed
+    following = Follow.objects.following(user)
+    context_dict['following'] = [following]
     return render(request, 'humans_of_hive/user_profile.html', context=context_dict)
 
 
@@ -239,33 +252,31 @@ def all_users(request):
     return render(request, 'humans_of_hive/users.html', context=context_dict)
 
 @login_required
-def follow(request, user_name_slug):
-    #If it is a POST request
+def follow(request, post_name_slug, user_name_slug):
+    followee = UserProfile.objects.get(slug=user_name_slug)
+    follower = UserProfile.objects.get(user=request.user)
+    context_dict = {'followee': followee, 'follower': follower}
     if request.method == 'POST':
-        #get user that current user wants to follow
-        followee = UserProfile.objects.get(slug=user_name_slug).user
-        context_dict = {'followee_username': followee.username}
-        follower = request.user
         try:
-            Follow.objects.add_follower(follower, followee)
+            Follow.follow_objects.add_follower(follower, followee)
+            return show_post(request, post_name_slug)
         #if that user is already being followed
-        except AlreadyExistsError as e:
+        except IntegrityError as e:
             #add error to context dictionary
             context_dict['errors'] = ['%s' % e]
     return render(request, 'humans_of_hive/add_follower.html', context=context_dict)
 
 @login_required
-def follower_remove(request, followee_username):
+def unfollow(request, post_name_slug, user_name_slug):
+    followee = UserProfile.objects.get(slug=user_name_slug)
+    follower = UserProfile.objects.get(user=request.user)
+    context_dict = {'followee': followee, 'follower': follower}
     #If it is a POST request
     if request.method == 'POST':
-        #get user that is to be removed
-        followee = User.objects.get(username=followee_username)
-        follower = request.user
         #remove user
-        Follow.objects.remove_follower(follower, followee)
+        Follow.follow_objects.remove_follower(follower, followee)
         #TODO: 'friendship_following' to be replaced by suitable url
-        return redirect('friendship_following', username=follower.username)
-    context_dict = {'followee_username': followee_username}
+        return show_post(request, post_name_slug)
     return render(request, 'humans_of_hive/remove_follower.html', context=context_dict)
 
 def followers_list(request, username):

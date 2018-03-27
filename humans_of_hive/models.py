@@ -2,6 +2,7 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from datetime import datetime
+from django.db import IntegrityError
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
@@ -22,7 +23,7 @@ class UserProfile(models.Model):
         ordering = ['user']
 
 
-class ManageFollows(models.Model):
+class FollowingManager(models.Model):
     #Get a list of all those following a user
     #Note: function expects a UserProfile instance
     @staticmethod
@@ -38,20 +39,19 @@ class ManageFollows(models.Model):
         return followees
 
     #Check if user is following another user
-    @staticmethod
-    def follows(follower, followee):
+    def follows(self, follower, followee):
         try:
             Follow.objects.get(follower=follower, followee=followee)
             return True
         except Follow.DoesNotExist:
             return False
 
-    #Add a new follower follows followee relationship
-    #@staticmethod
+    # Add a new follower follows followee relationship
+    # @staticmethod
     def add_follower(self, follower, followee):
         relation, created = Follow.objects.get_or_create(follower=follower, followee=followee)
         if not created:
-            raise AlreadyExistsError('User %s already follows %s' % (follower, followee))
+            raise IntegrityError('User %s already follows %s' % (follower, followee))
         return relation
 
     #Remove follower follows followee relationship
@@ -68,11 +68,13 @@ class Follow(models.Model):
     follower = models.ForeignKey(UserProfile, related_name='following')
     followee = models.ForeignKey(UserProfile, related_name='followers')
     created = models.DateTimeField(auto_now_add=True)
-    objects = ManageFollows()
+
+    objects = models.Manager()
+    follow_objects = FollowingManager()
 
     def save(self, *args, **kwargs):
         if self.follower == self.followee:
-            raise ValidationError('Users cannot follow themselves')
+            raise IntegrityError('Users cannot follow themselves')
         super(Follow, self).save(*args, **kwargs)
 
     def __str__(self):
