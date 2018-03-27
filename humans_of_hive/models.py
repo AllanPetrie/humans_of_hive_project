@@ -8,7 +8,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
     degree = models.CharField(max_length = 50)
     level_of_study = models.CharField(max_length = 20)
-    profile_picture = models.ImageField(upload_to = 'profile_images', blank = True)
+    profile_picture = models.ImageField(upload_to = 'profile_images', blank = True, null=True)
     slug = models.SlugField(blank=True, unique=True)
 
     def save(self, *args, **kwargs):
@@ -28,18 +28,31 @@ class FollowingManager(models.Model):
     #Note: function expects a UserProfile instance
     @staticmethod
     def followers(user):
-        followers = Follow.objects.filter(followee=user)
+        followers = []
+        follower_users = Follow.objects.filter(followee=user).values_list('follower')
+        for follower in follower_users:
+            follower_user = UserProfile.objects.get(pk=follower[0])
+            followers.append(follower_user)
+        if not Follow.objects.filter(followee=user):
+            followers = None
         return followers
 
     #Get a list of all users a user is following
     #Note: function expects a UserProfile instance
     @staticmethod
     def following(user):
-        followees = Follow.objects.filter(follower=user)
-        return followees
+        following = []
+        followees_users = Follow.objects.filter(follower=user).values_list('followee')
+        for followee in followees_users:
+            followed_user = UserProfile.objects.get(pk=followee[0])
+            following.append(followed_user)
+        if not Follow.objects.filter(follower=user):
+            following = None
+        return following
 
     #Check if user is following another user
-    def follows(self, follower, followee):
+    @staticmethod
+    def follows(follower, followee):
         try:
             Follow.objects.get(follower=follower, followee=followee)
             return True
@@ -47,8 +60,8 @@ class FollowingManager(models.Model):
             return False
 
     # Add a new follower follows followee relationship
-    # @staticmethod
-    def add_follower(self, follower, followee):
+    @staticmethod
+    def add_follower(follower, followee):
         relation, created = Follow.objects.get_or_create(follower=follower, followee=followee)
         if not created:
             raise IntegrityError('User %s already follows %s' % (follower, followee))
@@ -74,7 +87,7 @@ class Follow(models.Model):
 
     def save(self, *args, **kwargs):
         if self.follower == self.followee:
-            raise IntegrityError('Users cannot follow themselves')
+            raise IntegrityError('You cannot follow yourself')
         super(Follow, self).save(*args, **kwargs)
 
     def __str__(self):

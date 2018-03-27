@@ -18,6 +18,6 @@
       {% endfor %}
     </ul>
   {% else %}
-    <strong>You haven't made any posts yet</strong>
-    <a href="{% url 'add_post' %}">Add a story now?</a>
-{% endif %}
+    <strong>There are no posts yet</strong>
+  {% endif %}
+{% endblock %}
