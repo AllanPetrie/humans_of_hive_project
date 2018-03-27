@@ -1,21 +1,13 @@
 <!DOCTYPE html>
 {% load staticfiles %}
-<<<<<<< HEAD
+
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>{% block title %}Humans of Hive{% endblock %}</title>
-=======
-
-{% block script_block %}
-  <script src="{% static 'scripts/jquery.min.js' %}"></script>
-  <script src="{% static 'scripts/humans-of-hive-jquery.js' %}"></script>
-  <script src="{% static 'scripts/humans-of-hive-ajax.js' %}"></script>
-{% endblock %}
 
  <html>
   <html lang="en" dir="ltr">
@@ -80,6 +72,7 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="{% static 'scripts/humans-of-hive-ajax.js' %}"></script>
     <script src="http://v4-alpha.getbootstrap.com/dist/js/bootstrap.min.js"></script>
     <script src="http://v4-alpha.getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
   </body>
