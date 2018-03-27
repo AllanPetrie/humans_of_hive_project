@@ -263,3 +263,17 @@ def unfollow(request, user_name_slug, post_name_slug):
         else:
             return show_post(request, post_name_slug)
     return render(request, 'humans_of_hive/remove_follower.html', context=context_dict)
+
+@login_required
+def like_post(request):
+    post_id = None
+    if request.method == 'GET':
+        post_id = request.GET['post_id']
+    points = 0
+    if post_id:
+        post = Post.objects.get(id=int(post_id))
+        if post:
+            points = post.points + 1
+            post.points =  points
+            post.save()
+    return HttpResponse(points)

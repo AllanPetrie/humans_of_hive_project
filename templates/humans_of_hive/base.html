@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 {% load staticfiles %}
 
+{% block script_block %}
+  <script src="{% static 'scripts/jquery.min.js' %}"></script>
+  <script src="{% static 'scripts/humans-of-hive-jquery.js' %}"></script>
+  <script src="{% static 'scripts/humans-of-hive-ajax.js' %}"></script>
+{% endblock %}
+
  <html>
   <html lang="en" dir="ltr">
   <meta charset="utf-8" />
   <head>
-    {% block script_block %}
-    {% endblock %}
     <link rel="stylesheet" href="styles/layout.css" type="text/css">
 
     <title>

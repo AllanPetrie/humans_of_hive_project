@@ -22,7 +22,6 @@ class UserProfile(models.Model):
         #impose ordering on a UserProfile list
         ordering = ['user']
 
-
 class FollowingManager(models.Model):
     #Get a list of all those following a user
     #Note: function expects a UserProfile instance

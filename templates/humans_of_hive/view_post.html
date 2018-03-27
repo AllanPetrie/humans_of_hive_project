@@ -2,7 +2,9 @@
 {% load staticfiles %}
 
 {% block script_block %}
+  <script src="{% static 'scripts/jquery.min.js' %}"></script>
   <script type="text/javascript" src="{%  static 'scripts/voting.js' %}"></script>
+  <script src="{% static 'scripts/humans-of-hive-ajax.js' %}"></script>
 {% endblock %}
 
 {% block title_block %}
@@ -28,10 +30,12 @@
       <hr />
     </div>
 
-    <!--Upvote/Downvote buttons -->
+  <!--Upvote/Downvote buttons -->
     <div>
-      <input id="Upvote" type="button" value="Upvote" />
-      <input id="Downvote" type="button" value="Downvote" />
+      Points: <strong id="point_count">{{ post.points }}</strong>
+      {% if request.user.is_authenticated %}
+        <button id="points" data-catid="{{post.id}}" class="btn btn-primary btn-sm" type="button">Upvote</button>
+      {% endif %}
     </div>
 
     <h2>Comments</h2>
