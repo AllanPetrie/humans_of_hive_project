@@ -1,0 +1,8 @@
+cffi==1.11.4
+Django==1.11.7
+django-bootstrap-toolkit==2.15.0
+django-friendship==1.5.0
+Pillow==5.0.0
+pycparser==2.18
+pytz==2017.3
+six==1.11.0
