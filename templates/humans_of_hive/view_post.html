@@ -13,8 +13,9 @@
 
 {% block body_block %}
   {% if post %}
-    <div>
-      <h1>{{ post.title }}</h1>
+  <div class="jumbotron">
+    <div class="container">
+      <h1 class="display-3">{{ post.title }}</h1>
       <b>{{ post.user }}</b>
       {% if request.user.is_authenticated %}
         {% if follows == False %}
@@ -29,6 +30,7 @@
       {% endif %}
       <hr />
     </div>
+  </div>
 
   <!--Upvote/Downvote buttons -->
     <div>
