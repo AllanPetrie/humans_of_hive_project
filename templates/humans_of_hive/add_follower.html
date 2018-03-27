@@ -6,13 +6,19 @@
 {% endblock %}
 
 {% block body_block %}
-    {% if not followee_username == request.user.username %}
-    {% if errors %}<p>{{ errors|join:", " }}</p>{% endif %}
-    <form method="post">
-    {% csrf_token %}
-    <i>Start following </i>{{ followee }}<i>?</i>
-    <input type="hidden" name="followee" value="{{ followee }}" />
-    <input type="submit" value="Follow" />
-    </form>
-    {% endif %}
+  <div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3">Follow</h1>
+        {% if not followee_username == request.user.username %}
+        {% if errors %}<p>{{ errors|join:", " }}</p>{% endif %}
+        <form method="post">
+        {% csrf_token %}
+        <i>Start following </i>{{ followee }}<i>?</i>
+        <input type="hidden" name="followee" value="{{ followee }}" />
+        <input type="submit" value="Follow" />
+        </form>
+       {% endif %}
+      <hr />
+    </div>
+  </div>
 {% endblock %}
