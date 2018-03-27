@@ -32,11 +32,11 @@
     </div>
   </div>
 
-  <!--Upvote/Downvote buttons -->
+  <!--Upvote button -->
     <div>
       Points: <strong id="point_count">{{ post.points }}</strong>
       {% if request.user.is_authenticated %}
-        <button id="points" data-catid="{{post.id}}" class="btn btn-primary btn-sm" type="button">Upvote</button>
+        <button id="points" data-postid="{{post.id}}" class="btn btn-primary btn-sm" type="button">Upvote</button>
       {% endif %}
     </div>
 

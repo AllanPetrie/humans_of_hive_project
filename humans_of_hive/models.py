@@ -108,7 +108,7 @@ class Post(models.Model):
     points = models.IntegerField(default = 0)
     story = models.CharField(max_length = story_length)
     picture = models.ImageField(upload_to='post_photos', blank=True, null=True)
-    time_posted = models.DateTimeField(auto_now=True)
+    time_posted = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(blank=True, unique=True)
 
     def save(self, *args, **kwargs):

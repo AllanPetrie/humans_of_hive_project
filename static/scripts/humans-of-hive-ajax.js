@@ -1,8 +1,12 @@
-$('#likes').click(function(){
-	var postid;
-	postid = $(this).attr("data-catid");
-	$.get('/rango/like/', {post_id: catid}, function(data){
-	$('#point_count').html(data);
-	$('#likes').hide();
+$(document).ready(function(){
+
+	$('#points').click(function(){
+		var postid;
+		postid = $(this).attr("data-postid");
+		$.get('/humans_of_hive/like/', {post_id: postid}, function(data){
+			$('#point_count').html(data);
+			$('#points').hide();
+			});
 	});
+
 });
