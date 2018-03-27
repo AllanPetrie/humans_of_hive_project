@@ -1,5 +1,15 @@
 <!DOCTYPE html>
 {% load staticfiles %}
+<<<<<<< HEAD
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %}Humans of Hive{% endblock %}</title>
+=======
 
 {% block script_block %}
   <script src="{% static 'scripts/jquery.min.js' %}"></script>
@@ -12,42 +22,65 @@
   <meta charset="utf-8" />
   <head>
     <link rel="stylesheet" href="styles/layout.css" type="text/css">
+>>>>>>> 6f011ac592f9e2219b1977c077b31388a762b8ca
 
-    <title>
-      Humans of Hive-
-      {% block title_block %}
-        A site for all your Hive stories!
-      {% endblock %}
-    </title>
+    <!-- Bootstrap core CSS -->
+    <link href="http://v4-alpha.getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Custom styles for this template -->
+    <link href="dashboard.css" rel="stylesheet">
   </head>
 
   <body>
-    <div>
-      {% block body_block %}
-      {% endblock %}
-    </div>
-    <hr />
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+      <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="{% url 'home' %}">Humans of Hive</a>
 
-    <div>
-      <ul>
-        {% if request.user.is_authenticated %}
-          <li><a href="{% url 'add_post' %}">Add a story</a></li>
-          <li><a href="{% url 'user_profile' %}">My profile</a></li>
-          <li><a href = "{% url 'logout' %}">Logout</a></li>
-        {% else %}
-          <li><a href="{% url 'login' %}">Sign in</a></li>
-          <li><a href="{% url 'register' %}">Sign up</a></li>
-        {% endif %}
-          <li><a href="{% url 'home' %}">Home</a></li>
-          <li><a href="{% url 'hall_of_fame' %}">Hall of Fame</a></li>
-          <li><a href="{% url 'about' %}">About</a></li>
-      </ul>
-
-      <div>
-        <footer id="footer" class="clear">
-          <p class="fl_left">Copyright &copy; 2018 - <a href="#">Humans of Hive Project</a></p>
-        </footer>
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'home' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'hall_of_fame' %}">Hall of Fame</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'about' %}">About</a>
+          </li>
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'add_post' %}">Add a story</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'user_profile' %}">My Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'register' %}">Sign up</a>
+            </li>
+          {% endif %}
+        </ul>
       </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="col-sm-4 offset-sm-3 col-md-5 offset-md-2 main">
+        {% block body_block %}{% endblock %}
+      </div>
+    </div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="http://v4-alpha.getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <script src="http://v4-alpha.getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>

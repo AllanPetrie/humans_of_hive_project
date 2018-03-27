@@ -1,4 +1,5 @@
 {% extends 'humans_of_hive/base.html' %}
+{% load bootstrap_toolkit %}
 {% load staticfiles %}
 
 {% block title_block %}
@@ -6,21 +7,11 @@
 {% endblock %}
 
 {% block body_block %}
-  <h1>Register</h1>
+  <h2 class="form-signin-heading">Sign up Here</h2>
 
-  {% if registered %}
-    <div>
-      <i>Thank you for registering</i>
-      <a href="{% url 'home' %}">Return to homepage</a>
-    </div>
-  {% else %}
-    <form id="user_form" method="post" action="{% url 'register'}" enctype="multipart/form-data">
-      {% csrf_token %}
-
-      {{ user_form.as_p }}
-      {{ profile_form.as_p }}
-
-      <input type="submit" name="submit" value="Register" />
-    </form>
-  {% endif %}
+  <form role="form" method="post" action="{% url 'register' %}">
+    {% csrf_token %}
+    {{ form|as_bootstrap }}
+    <button class="btn btn-primary" type="submit" name="submit">Sign up</button>
+  </form>
 {% endblock %}

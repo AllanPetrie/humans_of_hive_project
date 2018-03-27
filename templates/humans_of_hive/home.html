@@ -5,38 +5,35 @@
 {% block title_block %}
   <head>
     <title>Humans of Hive</title>
-    <link rel="stylesheet" href="styles/layout.css" type="text/css">
+    <link href="http://v4-alpha.getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
   </head>
 {% endblock %}
 
 {% block body_block %}
-  <div class="wrapper row1">
-    <header id="header" class="clear">
-      <div id="hgroup">
-        <h1><a href="#title">Humans of Hive</a></h1>
-      </div>
-    </header>
+  <section class="jumbotron text-center">
+    <div class="container">
+      <h1 class="jumbotron-heading">Welcome to Humans of Hive</h1>
+      <p class="lead text-muted">A site for sharing all of your favourite stories from Glasgow University Union's Hive</p>
+    </div>
+  </section>
 
-    <div id="homepage">
-      <!-- services area -->
-      <selection id="services" class="clear">
-      <!-- article 1 -->
-      {% if posts %}
-      <ul>
-        {% for post in posts %}
-        <li>
-          <article class="one_third">
-              <b>{{post.user}}</b>
-              <a href="{% url 'show_post' post.slug %}">{{post.title}}</a>
-              <!--show post image, user and points-->
-            </article>
-        </li>
+  <div class="album text-muted">
+    <div class="container">
+
+      <div class="row">
+        {% if posts %}
+          {% for post in posts %}
+            <div class="card">
+              <img data-src="{{ MEDIA_URL}}{{ post.picture }}" alt="{{ post.title}}">
+              <b>{{ post.user }}</b>
+              <p class="card-text"><a href="{% url 'show_post' post.slug %}">{{post.title}}</a></p>
+            </div>
         {% endfor %}
-      </ul>
-      {% else %}
-        <strong>Sorry, there aren't any posts to show just now</strong>
-      {% endif %}
-      </selection>
+        {% else %}
+          <strong>Sorry, there aren't any posts to show just now</strong>
+        {% endif %}
+      </div>
     </div>
-    </div>
+  </div>
+
 {% endblock %}
