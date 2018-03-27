@@ -16,12 +16,24 @@
   <b>I am following:</b></br>
   {% for followee in following %}
     {% if followee == None %}
-      <i>You are not following anyone.</i></br>
+      <i>You are not following anyone</i></br>
     {% else %}
       {% for f in followee %}
         <li>
           <a href="{% url 'user_posts' f.slug %}">{{ f }}</a>
           <a href="{% url 'remove_follower' path f.slug %}">Unfollow</a>
+        </li>
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+  <b>My followers:</b></<br>
+  {% for follower in followers %}
+    {% if follower == None %}
+      <i>You have no followers yet</i></<br>
+    {% else %}
+      {% for f in follower %}
+        <li>
+          {{ f }}
         </li>
       {% endfor %}
     {% endif %}

@@ -29,12 +29,13 @@ class FollowingManager(models.Model):
     @staticmethod
     def followers(user):
         followers = []
-        follower_users = Follow.objects.filter(followee=user).values_list('follower')
-        for follower in follower_users:
-            follower_user = UserProfile.objects.get(pk=follower[0])
-            followers.append(follower_user)
         if not Follow.objects.filter(followee=user):
             followers = None
+        else:
+            follower_users = Follow.objects.filter(followee=user).values_list('follower')
+            for follower in follower_users:
+                follower_user = UserProfile.objects.get(pk=follower[0])
+                followers.append(follower_user)
         return followers
 
     #Get a list of all users a user is following
@@ -42,15 +43,17 @@ class FollowingManager(models.Model):
     @staticmethod
     def following(user):
         following = []
-        followees_users = Follow.objects.filter(follower=user).values_list('followee')
-        for followee in followees_users:
-            followed_user = UserProfile.objects.get(pk=followee[0])
-            following.append(followed_user)
         if not Follow.objects.filter(follower=user):
             following = None
+        else:
+            followees_users = Follow.objects.filter(follower=user).values_list('followee')
+            for followee in followees_users:
+                followed_user = UserProfile.objects.get(pk=followee[0])
+                following.append(followed_user)
         return following
 
     #Check if user is following another user
+    #Note: expects UserProfile instances
     @staticmethod
     def follows(follower, followee):
         try:
@@ -60,6 +63,7 @@ class FollowingManager(models.Model):
             return False
 
     # Add a new follower follows followee relationship
+    #Note: expects UserProfile instances
     @staticmethod
     def add_follower(follower, followee):
         relation, created = Follow.objects.get_or_create(follower=follower, followee=followee)
@@ -68,6 +72,7 @@ class FollowingManager(models.Model):
         return relation
 
     #Remove follower follows followee relationship
+    #Note: expects UserProfile instances
     @staticmethod
     def remove_follower(follower, followee):
         try:
