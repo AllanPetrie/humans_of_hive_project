@@ -133,13 +133,16 @@ def show_post(request, post_name_slug):
         comments = Comment.objects.filter(post=post)
         #get slug for user that created a post
         user = UserProfile.objects.get(user=post.user.user)
-        follower = UserProfile.objects.get(user=request.user)
-        follows = Follow.follow_objects.follows(follower=follower, followee=user)
+        if request.user.is_authenticated():
+            follower = UserProfile.objects.get(user=request.user)
+            follows = Follow.follow_objects.follows(follower=follower, followee=user)
+            context_dict['follows'] = follows
+        else:
+            context_dict['follows'] = None
         #populate context dictionary
         context_dict['post'] = post
         context_dict['comments'] = comments
         context_dict['user'] = user.slug
-        context_dict['follows'] = follows
     except Post.DoesNotExist:
         #populate context dictionary
         context_dict['user'] = None
@@ -219,16 +222,13 @@ def add_comment(request, post_name_slug):
 def show_profile(request):
     user_profile = UserProfile.objects.get(user=request.user)
     context_dict = {'user_profile': user_profile}
-    # Get user whose followers and followees are to be listed
-    user = User.objects.filter(username=username)
     # collect all the followers of that user
-    followers = Follow.objects.followers(user)
+    followers = Follow.follow_objects.followers(user_profile)
     context_dict['followers'] = [followers]
-    # collect all the users followed
-    following = Follow.objects.following(user)
+    # collect all the users followed by them
+    following = Follow.follow_objects.following(user_profile)
     context_dict['following'] = [following]
     return render(request, 'humans_of_hive/user_profile.html', context=context_dict)
-
 
 @login_required
 def user_posts(request):
@@ -275,7 +275,6 @@ def unfollow(request, post_name_slug, user_name_slug):
     if request.method == 'POST':
         #remove user
         Follow.follow_objects.remove_follower(follower, followee)
-        #TODO: 'friendship_following' to be replaced by suitable url
         return show_post(request, post_name_slug)
     return render(request, 'humans_of_hive/remove_follower.html', context=context_dict)
 

@@ -1,4 +1,1 @@
--redirect after submitting comment
--adding comments/posts
--hall of fame link
 -whole thing looks really really ugly

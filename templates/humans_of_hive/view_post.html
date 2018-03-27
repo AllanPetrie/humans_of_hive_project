@@ -14,10 +14,12 @@
     <div>
       <h1>{{ post.title }}</h1>
       <b>{{ post.user }}</b>
-      {% if follows == False %}
-        <a href="{% url 'add_follower' post.slug user %}">Follow</a>
-      {% else %}
-        <a href="{% url 'remove_follower' post.slug user %}">Unfollow</a>
+      {% if request.user.is_authenticated %}
+        {% if follows == False %}
+          <a href="{% url 'add_follower' post.slug user %}">Follow</a>
+        {% else %}
+          <a href="{% url 'remove_follower' post.slug user %}">Unfollow</a>
+        {% endif %}
       {% endif %}
       <p>{{ post.story }}</p>
       {% if post.picture %}

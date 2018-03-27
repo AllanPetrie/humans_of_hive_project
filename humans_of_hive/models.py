@@ -27,14 +27,14 @@ class FollowingManager(models.Model):
     #Get a list of all those following a user
     #Note: function expects a UserProfile instance
     @staticmethod
-    def follower_list(user):
+    def followers(user):
         followers = Follow.objects.filter(followee=user)
         return followers
 
     #Get a list of all users a user is following
     #Note: function expects a UserProfile instance
     @staticmethod
-    def followee_list(user):
+    def following(user):
         followees = Follow.objects.filter(follower=user)
         return followees
 
