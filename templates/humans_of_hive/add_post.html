@@ -7,10 +7,27 @@
 {% endblock %}
 
 {% block body_block %}
-  <h2 class="form-signin-heading">Add a Story!</h2>
-    <form id="PostForm" method="post" action="/humans_of_hive/add_post/">
-      {% csrf_token %}
-      {{ form|as_bootstrap }}
-    <button class="btn btn-primary" type="submit" name="submit">Post story</button>
-    </form>
+<section class="jumbotron text-center">
+    <div class="container">
+      <h2 class="form-signin-heading">Add Post</h2>
+      <p class="lead text-muted">Share your hive story</p>
+    </div>
+</section>
+
+<form method="post" action="{% url 'add_post' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+      <p class="required"><label class="required" for="id_title">Title * </label>
+        <input class="form-control" id="id_title" maxlength="50" name="title"/>
+      </p>
+      <p class="required"><label class="required" for="id_story">Story *</label>
+        <input class="form-control" id="id_story" name="story" />
+      </p>
+      <p>Add a picture
+        <input type="file" name="fileToUpload" id="fileToUpload"/>
+      </p>
+    </div>
+    <button class="btn btn-lg btn-primary btn-sm">Submit</button>
+  </form>
+
 {% endblock %}

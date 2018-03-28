@@ -15,7 +15,7 @@ List of views for convenience:
 -about
 -register
 -user_login
--logout
+-user_logout
 -show_post
 -add_post
 -add_comment
@@ -72,6 +72,9 @@ def register(request):
             profile.save()
             #set registered to True to indicate successful registration
             registered=True
+            new_user = authenticate(username=user_form.cleaned_data['username'], password=user_form.cleaned_data['password'],)
+            login(request, new_user)
+            return HttpResponseRedirect('/humans_of_hive/')
         #If incorrect details were provided
         else:
             print(user_form.errors, profile_form.errors)

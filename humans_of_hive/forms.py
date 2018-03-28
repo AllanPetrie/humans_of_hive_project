@@ -4,7 +4,7 @@ from humans_of_hive.models import Post, Comment, UserProfile
 
 class PostForm(forms.ModelForm):
     title = forms.CharField(max_length=Post.title_length, help_text='Name your post')
-    points = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
+    points = forms.IntegerField(widget=forms.HiddenInput(), initial=0, required=False)
     story = forms.CharField(max_length=Post.story_length, help_text='Tell your story')
     picture = forms.ImageField(help_text='Add a picture', required=False)
     time_posted = forms.DateTimeField(widget=forms.HiddenInput(), required=False)
