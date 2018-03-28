@@ -16,7 +16,7 @@
   <div class="jumbotron">
     <div class="container">
       <h1 class="display-3">{{ post.title }}</h1>
-      <b>{{ post.user }}</b>
+      Created by <b>{{ post.user }}</b><br>
       {% if request.user.is_authenticated %}
         {% if follows == False %}
           <a href="{% url 'add_follower' post.slug user %}">Follow</a>
@@ -24,21 +24,23 @@
           <a href="{% url 'remove_follower' post.slug user %}">Unfollow</a>
         {% endif %}
       {% endif %}
+      <hr />
       <p>{{ post.story }}</p>
       {% if post.picture %}
         <img src="{{ MEDIA_URL }}{{ post.img }}" />
       {% endif %}
       <hr />
-    </div>
-  </div>
 
-  <!--Upvote button -->
+      <!--Upvote button -->
     <div>
       Points: <strong id="point_count">{{ post.points }}</strong>
       {% if request.user.is_authenticated %}
         <button id="points" data-postid="{{post.id}}" class="btn btn-primary btn-sm" type="button">Upvote</button>
       {% endif %}
     </div>
+
+    </div>
+  </div>
 
     <h2>Comments</h2>
     {% if comments %}

@@ -6,19 +6,23 @@
 {% endblock %}
 
 {% block body_block %}
+<section class="jumbotron text-center">
+    <div class="container">
+      <h1 class="jumbotron-heading">Unfollow</h1>
+    </div>
+  </section>
+
   <div class="jumbotron">
     <div class="container">
-      <h1 class="display-3">Unfollow</h1>
       {% if not followee_username == request.user.username %}
         {% if errors %}<p>{{ errors|join:", " }}</p>{% endif %}
         <form method="post">
         {% csrf_token %}
         <i>Are you sure you want to stop following </i>{{ followee }}<i>?</i>
         <input type="hidden" name="followee" value="{{ followee }}" />
-        <input type="submit" value="Unfollow" />
+        <button class="btn btn-lg btn-primary btn-sm" type="submit" value="submit">Unfollow</button>
         </form>
        {% endif %}
-      <hr />
     </div>
   </div>
 {% endblock %}

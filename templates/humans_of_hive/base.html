@@ -1,20 +1,10 @@
 <!DOCTYPE html>
 {% load staticfiles %}
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>{% block title %}Humans of Hive{% endblock %}</title>
-
- <html>
   <html lang="en" dir="ltr">
   <meta charset="utf-8" />
   <head>
     <link rel="stylesheet" href="styles/layout.css" type="text/css">
->>>>>>> 6f011ac592f9e2219b1977c077b31388a762b8ca
 
     <!-- Bootstrap core CSS -->
     <link href="http://v4-alpha.getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -41,7 +31,7 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'about' %}">About</a>
           </li>
-          {% if user.is_authenticated %}
+          {% if request.user.is_authenticated %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'add_post' %}">Add a story</a>
             </li>
@@ -68,6 +58,12 @@
         {% block body_block %}{% endblock %}
       </div>
     </div>
+
+    <div id="container">
+      <hr/>
+      <div id="footer">&copy; 2018 HumansOfHive</div>
+    </div>
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

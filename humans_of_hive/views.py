@@ -24,6 +24,7 @@ List of views for convenience:
 -hall_of_fame
 -follow
 -unfollow
+-like_post
 '''
 
 def home(request):
@@ -226,7 +227,7 @@ def user_posts(request, user_name_slug):
     user = UserProfile.objects.get(slug=user_name_slug)
     #get posts by that user
     posts = Post.objects.filter(user=user)
-    context_dict = {'posts':posts}
+    context_dict = {'posts':posts, 'owner':user}
     return render(request, 'humans_of_hive/user_posts.html', context=context_dict)
 
 def hall_of_fame(request):
@@ -277,3 +278,4 @@ def like_post(request):
             post.points =  points
             post.save()
     return HttpResponse(points)
+

@@ -468,4 +468,18 @@ hr {
   .cancelbtn, .signupbtn {
     width: 100%;
   }
+
+#container {
+  position: relative;
+  height: 50px;
+}
+
+#footer {
+  postion: absolute;
+  bottom: 5px;
+  height: 40px;
+  margin-top: 40px;
+  background-color: #f3e5f5;
+  padding: 20px;
+}
 }
