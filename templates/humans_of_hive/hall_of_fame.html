@@ -27,7 +27,7 @@
               {% if post.image %}
                 <img data-src="{{ MEDIA_URL}}{{ post.picture }}" alt="{{ post.title}}" style="height: 150px; width: 100%; display: block;">
               {% else %}
-                <img src="{% static 'images/story_placeholder.jpg'}" alt="placeholder" style="height: 150px; width: 100%; display: block;">
+                <img src="{% static 'images/story_default.jpg' %}" alt="placeholder" style="height: 150px; width: 100%; display: block;">
               {% endif %}
               <b>{{ post.user }}</b>
               <p class="card-text"><a href="{% url 'show_post' post.slug %}">{{post.title}}</a></p>
