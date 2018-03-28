@@ -83,8 +83,8 @@ def register(request):
         #display registration form
         user_form=UserForm()
         profile_form=UserProfileForm()
-    #Render the template with a content
-    context_dict = {'user_form':user_form, 'profile_form':profile_form, 'registered':registered}
+        #Render the template with a content
+        context_dict = {'user_form':user_form, 'profile_form':profile_form, 'registered':registered}
     return render(request, 'humans_of_hive/register.html', context=context_dict)
 
 def user_login(request):

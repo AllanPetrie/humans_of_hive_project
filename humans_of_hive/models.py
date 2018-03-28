@@ -3,12 +3,13 @@ from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from datetime import datetime
 from django.db import IntegrityError
+import os
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     degree = models.CharField(max_length = 50)
     level_of_study = models.CharField(max_length = 20)
-    profile_picture = models.ImageField(upload_to = 'profile_images', blank = True, null=True)
+    profile_picture = models.ImageField(upload_to = 'images/', blank = True, null=True)
     slug = models.SlugField(blank=True, unique=True)
 
     def save(self, *args, **kwargs):

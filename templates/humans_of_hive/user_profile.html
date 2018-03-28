@@ -11,7 +11,7 @@
       <h1 class="jumbotron-heading">My Profile</h1>
       <p class="lead text-muted">Howdy {{ user_profile.user }}!</p>
       {% if user_profile.image_exists == True %}
-        <img src="{{MEDIA_URL}}/images/{{ user_profile.image }}" alt="profile photo" /><br>
+        <img src="{{ MEDIA_URL }}{{ user_profile.profile_picture }}" alt="profile photo" /><br>
       {% else %}
         <img src="{% static 'images/default-profile.png' %}" alt="profile photo" style="height:150px; width:150px"><br />
       {% endif %}
